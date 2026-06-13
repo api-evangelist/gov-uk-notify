@@ -1,0 +1,42 @@
+{
+  "summary": "Send an SMS notification",
+  "description": "Example request and response for sending an SMS text message via the GOV.UK Notify API.",
+  "request": {
+    "method": "POST",
+    "url": "https://api.notifications.service.gov.uk/v2/notifications/sms",
+    "headers": {
+      "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "phone_number": "+447900900123",
+      "template_id": "f33517ff-2a88-4f6e-b855-c550268ce08a",
+      "personalisation": {
+        "name": "Jane",
+        "appointment_date": "1 January 2024",
+        "appointment_time": "2:00pm"
+      },
+      "reference": "appointment-reminder-jane-001"
+    }
+  },
+  "response": {
+    "status": 201,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "id": "740e5834-3a29-46b4-9a6f-16142fde533a",
+      "reference": "appointment-reminder-jane-001",
+      "content": {
+        "body": "Hi Jane, your appointment is on 1 January 2024 at 2:00pm.",
+        "from_number": "GOVUK"
+      },
+      "uri": "https://api.notifications.service.gov.uk/v2/notifications/740e5834-3a29-46b4-9a6f-16142fde533a",
+      "template": {
+        "id": "f33517ff-2a88-4f6e-b855-c550268ce08a",
+        "version": 1,
+        "uri": "https://api.notifications.service.gov.uk/v2/template/f33517ff-2a88-4f6e-b855-c550268ce08a/version/1"
+      }
+    }
+  }
+}

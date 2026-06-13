@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/gov-uk-notify/main/json-schema/send-email-request.json",
+  "title": "Send Email Request",
+  "description": "Request body for sending an email notification via the GOV.UK Notify API.",
+  "type": "object",
+  "required": ["email_address", "template_id"],
+  "properties": {
+    "email_address": {
+      "type": "string",
+      "format": "email",
+      "description": "Email address of the recipient."
+    },
+    "template_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "UUID of the email template to use."
+    },
+    "personalisation": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Key-value pairs to fill placeholders. Use a link_to_file object to attach a file."
+    },
+    "reference": {
+      "type": "string",
+      "description": "Client-supplied unique reference string for this notification."
+    },
+    "one_click_unsubscribe_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "HTTPS URL for RFC 8058 one-click unsubscribe. Recommended for marketing/bulk sends."
+    },
+    "email_reply_to_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "UUID of a reply-to email address configured on the service."
+    },
+    "sanitise_content_for": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "List of personalisation field names whose content should be sanitised."
+    }
+  },
+  "additionalProperties": false
+}

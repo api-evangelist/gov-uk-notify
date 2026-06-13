@@ -1,0 +1,917 @@
+openapi: 3.1.0
+info:
+  title: GOV.UK Notify API
+  description: >-
+    GOV.UK Notify is a UK government notification service operated by the Government Digital Service (GDS)
+    that enables central government, local authorities, NHS organisations, and other eligible public bodies
+    to send emails, text messages, and letters to citizens on behalf of government services. The API uses
+    JWT-based authentication and supports template-driven personalisation.
+  version: 2.0.0
+  contact:
+    url: https://www.notifications.service.gov.uk/support
+  license:
+    name: MIT
+    url: https://github.com/alphagov/notifications-api/blob/main/LICENSE
+  termsOfService: https://www.notifications.service.gov.uk/terms
+
+servers:
+  - url: https://api.notifications.service.gov.uk
+    description: GOV.UK Notify production API
+
+security:
+  - bearerAuth: []
+
+tags:
+  - name: Notifications
+    description: Send and retrieve notifications (email, SMS, letters)
+  - name: Templates
+    description: Retrieve and preview notification templates
+  - name: Received Text Messages
+    description: Retrieve inbound text messages
+
+paths:
+
+  /v2/notifications/sms:
+    post:
+      operationId: sendSms
+      summary: Send a text message
+      description: Send a text message (SMS) notification to a recipient using a pre-defined template.
+      tags:
+        - Notifications
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SendSmsRequest'
+            example:
+              phone_number: "+447900900123"
+              template_id: "f33517ff-2a88-4f6e-b855-c550268ce08a"
+              personalisation:
+                name: "Jane"
+              reference: "unique-ref-001"
+      responses:
+        '201':
+          description: SMS notification created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /v2/notifications/email:
+    post:
+      operationId: sendEmail
+      summary: Send an email notification
+      description: >-
+        Send an email notification to a recipient using a pre-defined template. Can also be used to send
+        a file by email by including a link_to_file object in the personalisation field.
+      tags:
+        - Notifications
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SendEmailRequest'
+            example:
+              email_address: "citizen@example.com"
+              template_id: "f33517ff-2a88-4f6e-b855-c550268ce08a"
+              personalisation:
+                name: "Jane"
+              reference: "unique-ref-002"
+              one_click_unsubscribe_url: "https://example.com/unsubscribe"
+      responses:
+        '201':
+          description: Email notification created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /v2/notifications/letter:
+    post:
+      operationId: sendLetter
+      summary: Send a letter notification
+      description: >-
+        Send a letter notification to a recipient using a pre-defined template, or send a precompiled
+        letter as a base64-encoded PDF.
+      tags:
+        - Notifications
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SendLetterRequest'
+            examples:
+              template_letter:
+                summary: Template-based letter
+                value:
+                  template_id: "f33517ff-2a88-4f6e-b855-c550268ce08a"
+                  personalisation:
+                    address_line_1: "The Occupier"
+                    address_line_2: "123 High Street"
+                    address_line_3: "London"
+                    postcode: "SW14 6BF"
+                    name: "Jane"
+                  reference: "unique-ref-003"
+              precompiled_letter:
+                summary: Precompiled PDF letter
+                value:
+                  reference: "unique-ref-004"
+                  content: "JVBERi0xLjUgb2JqZWN0..."
+                  postage: "second"
+      responses:
+        '201':
+          description: Letter notification created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /v2/notifications/{notification_id}:
+    get:
+      operationId: getNotification
+      summary: Get notification by ID
+      description: Retrieve the status and details of a single notification by its UUID.
+      tags:
+        - Notifications
+      parameters:
+        - name: notification_id
+          in: path
+          required: true
+          description: UUID of the notification
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Notification details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Notification'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /v2/notifications/{notification_id}/pdf:
+    get:
+      operationId: getLetterPdf
+      summary: Get letter PDF
+      description: Download the PDF file for a letter notification.
+      tags:
+        - Notifications
+      parameters:
+        - name: notification_id
+          in: path
+          required: true
+          description: UUID of the letter notification
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: PDF binary content
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /v2/notifications:
+    get:
+      operationId: listNotifications
+      summary: List notifications
+      description: >-
+        Retrieve a list of notifications sent by the service, optionally filtered by type,
+        status, or reference. Returns up to 250 notifications per request with pagination.
+      tags:
+        - Notifications
+      parameters:
+        - name: template_type
+          in: query
+          required: false
+          description: Filter by notification type
+          schema:
+            type: string
+            enum: [email, sms, letter]
+        - name: status
+          in: query
+          required: false
+          description: Filter by notification status
+          schema:
+            type: string
+        - name: reference
+          in: query
+          required: false
+          description: Filter by client reference string
+          schema:
+            type: string
+        - name: older_than
+          in: query
+          required: false
+          description: UUID of a notification; returns notifications older than this ID (pagination)
+          schema:
+            type: string
+            format: uuid
+        - name: include_jobs
+          in: query
+          required: false
+          description: Include notifications from CSV batch uploads
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: List of notifications
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationList'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /v2/template/{template_id}:
+    get:
+      operationId: getTemplate
+      summary: Get template by ID
+      description: Retrieve the current version of a template by its UUID.
+      tags:
+        - Templates
+      parameters:
+        - name: template_id
+          in: path
+          required: true
+          description: UUID of the template
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Template details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Template'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /v2/template/{template_id}/version/{version}:
+    get:
+      operationId: getTemplateVersion
+      summary: Get template by ID and version
+      description: Retrieve a specific version of a template by its UUID and version number.
+      tags:
+        - Templates
+      parameters:
+        - name: template_id
+          in: path
+          required: true
+          description: UUID of the template
+          schema:
+            type: string
+            format: uuid
+        - name: version
+          in: path
+          required: true
+          description: Version number of the template
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':
+          description: Template version details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Template'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /v2/templates:
+    get:
+      operationId: listTemplates
+      summary: List all templates
+      description: Retrieve all templates for the service, optionally filtered by type.
+      tags:
+        - Templates
+      parameters:
+        - name: type
+          in: query
+          required: false
+          description: Filter templates by type
+          schema:
+            type: string
+            enum: [email, sms, letter]
+      responses:
+        '200':
+          description: List of templates
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateList'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /v2/template/{template_id}/preview:
+    post:
+      operationId: previewTemplate
+      summary: Generate a template preview
+      description: >-
+        Generate a preview of a template with personalisation values substituted, without
+        sending a real notification.
+      tags:
+        - Templates
+      parameters:
+        - name: template_id
+          in: path
+          required: true
+          description: UUID of the template to preview
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TemplatePreviewRequest'
+            example:
+              personalisation:
+                name: "Jane"
+                appointment_date: "1 January 2024"
+      responses:
+        '200':
+          description: Rendered template preview
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplatePreview'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /v2/received-text-messages:
+    get:
+      operationId: listReceivedTextMessages
+      summary: List received text messages
+      description: >-
+        Retrieve inbound SMS messages received by the service. Returns up to 250 messages
+        per request with pagination support.
+      tags:
+        - Received Text Messages
+      parameters:
+        - name: older_than
+          in: query
+          required: false
+          description: Message ID; returns messages older than this ID (pagination)
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: List of received text messages
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReceivedTextMessageList'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+components:
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: >-
+        JWT token signed with HS256 using the service API key secret. Tokens are short-lived
+        and must include iss (service ID), iat (issued at), and exp (expiry) claims.
+
+  schemas:
+
+    SendSmsRequest:
+      type: object
+      required:
+        - phone_number
+        - template_id
+      properties:
+        phone_number:
+          type: string
+          description: UK mobile phone number of the recipient (E.164 format recommended)
+          example: "+447900900123"
+        template_id:
+          type: string
+          format: uuid
+          description: UUID of the SMS template to use
+        personalisation:
+          type: object
+          additionalProperties:
+            type: string
+          description: Key-value pairs to fill template placeholders
+        reference:
+          type: string
+          description: Client-supplied unique reference for this notification
+        sms_sender_id:
+          type: string
+          format: uuid
+          description: UUID of the SMS sender to use (overrides service default)
+
+    SendEmailRequest:
+      type: object
+      required:
+        - email_address
+        - template_id
+      properties:
+        email_address:
+          type: string
+          format: email
+          description: Email address of the recipient
+        template_id:
+          type: string
+          format: uuid
+          description: UUID of the email template to use
+        personalisation:
+          type: object
+          additionalProperties: true
+          description: >-
+            Key-value pairs to fill template placeholders. Use a link_to_file object value
+            to send a file by email.
+        reference:
+          type: string
+          description: Client-supplied unique reference for this notification
+        one_click_unsubscribe_url:
+          type: string
+          format: uri
+          description: HTTPS URL for one-click unsubscribe (recommended for bulk sends)
+        email_reply_to_id:
+          type: string
+          format: uuid
+          description: UUID of a reply-to email address configured on the service
+        sanitise_content_for:
+          type: array
+          items:
+            type: string
+          description: Array of personalisation field names whose content should be sanitised
+
+    LinkToFile:
+      type: object
+      required:
+        - file
+      properties:
+        file:
+          type: string
+          format: byte
+          description: Base64-encoded file content
+        filename:
+          type: string
+          description: Optional filename for the download link
+        confirm_email_before_download:
+          type: boolean
+          description: Whether the recipient must confirm their email before downloading
+        retention_period:
+          type: integer
+          minimum: 1
+          maximum: 78
+          description: Number of weeks to retain the file (1–78)
+
+    SendLetterRequest:
+      type: object
+      properties:
+        template_id:
+          type: string
+          format: uuid
+          description: UUID of the letter template (required for template-based letters)
+        personalisation:
+          type: object
+          additionalProperties:
+            type: string
+          description: >-
+            Address lines and template placeholder values. address_line_1, address_line_2,
+            and address_line_3 are required minimum address fields.
+        reference:
+          type: string
+          description: Client-supplied unique reference for this notification
+        content:
+          type: string
+          format: byte
+          description: Base64-encoded PDF content (for precompiled letters; mutually exclusive with template_id)
+        postage:
+          type: string
+          enum: [first, second, economy]
+          description: Postage class for precompiled letters
+
+    NotificationResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: UUID of the created notification
+        reference:
+          type: string
+          description: Client reference (if provided)
+        content:
+          type: object
+          description: Rendered notification content
+          properties:
+            body:
+              type: string
+              description: Rendered message body
+            subject:
+              type: string
+              description: Rendered email subject (email notifications only)
+            from_number:
+              type: string
+              description: SMS sender (SMS notifications only)
+        uri:
+          type: string
+          format: uri
+          description: API URL to retrieve this notification
+        template:
+          $ref: '#/components/schemas/TemplateRef'
+        scheduled_for:
+          type: string
+          format: date-time
+          nullable: true
+          description: Scheduled send time (if applicable)
+
+    Notification:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        reference:
+          type: string
+          nullable: true
+        email_address:
+          type: string
+          format: email
+          description: Recipient email (email notifications only)
+        phone_number:
+          type: string
+          description: Recipient phone number (SMS notifications only)
+        line_1:
+          type: string
+          description: First address line (letter notifications only)
+        line_2:
+          type: string
+          nullable: true
+        line_3:
+          type: string
+          nullable: true
+        line_4:
+          type: string
+          nullable: true
+        line_5:
+          type: string
+          nullable: true
+        line_6:
+          type: string
+          nullable: true
+        postcode:
+          type: string
+          nullable: true
+        type:
+          type: string
+          enum: [email, sms, letter]
+        status:
+          type: string
+          description: Current delivery status of the notification
+        template:
+          $ref: '#/components/schemas/TemplateRef'
+        body:
+          type: string
+          description: Rendered notification body
+        subject:
+          type: string
+          nullable: true
+          description: Rendered email subject (email only)
+        created_at:
+          type: string
+          format: date-time
+        sent_at:
+          type: string
+          format: date-time
+          nullable: true
+        completed_at:
+          type: string
+          format: date-time
+          nullable: true
+        estimated_delivery:
+          type: string
+          format: date-time
+          nullable: true
+          description: Estimated delivery time (letter notifications)
+        cost_in_pounds:
+          type: number
+          format: float
+          nullable: true
+          description: Cost of the notification in GBP
+        cost_details:
+          type: object
+          nullable: true
+          description: Breakdown of cost components
+        postage:
+          type: string
+          nullable: true
+          description: Postage class used (letter notifications only)
+        created_by_name:
+          type: string
+          nullable: true
+          description: Name of the user who sent the notification (if sent via UI)
+
+    NotificationList:
+      type: object
+      properties:
+        notifications:
+          type: array
+          items:
+            $ref: '#/components/schemas/Notification'
+        links:
+          type: object
+          properties:
+            current:
+              type: string
+              format: uri
+            next:
+              type: string
+              format: uri
+              description: URL to retrieve the next page of results
+
+    Template:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        type:
+          type: string
+          enum: [email, sms, letter]
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+          nullable: true
+        created_by:
+          type: string
+          format: email
+        version:
+          type: integer
+        body:
+          type: string
+          description: Raw template body with placeholder syntax
+        subject:
+          type: string
+          nullable: true
+          description: Email subject line (email templates only)
+        letter_contact_block:
+          type: string
+          nullable: true
+          description: Contact block for letter templates
+        postage:
+          type: string
+          nullable: true
+          description: Default postage class (letter templates only)
+        personalisation:
+          type: object
+          nullable: true
+          additionalProperties:
+            type: object
+            properties:
+              required:
+                type: boolean
+
+    TemplateRef:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        version:
+          type: integer
+        uri:
+          type: string
+          format: uri
+
+    TemplateList:
+      type: object
+      properties:
+        templates:
+          type: array
+          items:
+            $ref: '#/components/schemas/Template'
+
+    TemplatePreviewRequest:
+      type: object
+      required:
+        - personalisation
+      properties:
+        personalisation:
+          type: object
+          additionalProperties:
+            type: string
+          description: Key-value pairs to substitute into template placeholders
+
+    TemplatePreview:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        type:
+          type: string
+          enum: [email, sms, letter]
+        version:
+          type: integer
+        body:
+          type: string
+          description: Rendered template body with personalisation applied
+        subject:
+          type: string
+          nullable: true
+          description: Rendered email subject (email templates only)
+        html:
+          type: string
+          nullable: true
+          description: HTML-rendered body (email templates only)
+        postage:
+          type: string
+          nullable: true
+          description: Postage class (letter templates only)
+
+    ReceivedTextMessage:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        user_number:
+          type: string
+          description: Phone number that sent the inbound message
+        notify_number:
+          type: string
+          description: GOV.UK Notify number that received the message
+        content:
+          type: string
+          description: Text content of the received message
+        service_id:
+          type: string
+          format: uuid
+        created_at:
+          type: string
+          format: date-time
+
+    ReceivedTextMessageList:
+      type: object
+      properties:
+        received_text_messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReceivedTextMessage'
+        links:
+          type: object
+          properties:
+            current:
+              type: string
+              format: uri
+            next:
+              type: string
+              format: uri
+              description: URL to retrieve the next page of results
+
+    ErrorResponse:
+      type: object
+      properties:
+        status_code:
+          type: integer
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              error:
+                type: string
+                description: Machine-readable error type
+              message:
+                type: string
+                description: Human-readable error description
+
+  responses:
+    BadRequest:
+      description: Validation error in request body or parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            status_code: 400
+            errors:
+              - error: "ValidationError"
+                message: "phone_number is not a valid phone number"
+
+    Forbidden:
+      description: Authentication failed or API key lacks permission
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            status_code: 403
+            errors:
+              - error: "AuthError"
+                message: "Invalid token: API key not found"
+
+    NotFound:
+      description: Requested resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            status_code: 404
+            errors:
+              - error: "NoResultFound"
+                message: "No result found"
+
+    RateLimited:
+      description: Rate limit exceeded (3,000 messages per minute per API key)
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            status_code: 429
+            errors:
+              - error: "TooManyRequestsError"
+                message: "Exceeded send limits (3000) for today"
+
+    ServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            status_code: 500
+            errors:
+              - error: "Exception"
+                message: "Internal server error"

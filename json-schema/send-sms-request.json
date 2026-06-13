@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/gov-uk-notify/main/json-schema/send-sms-request.json",
+  "title": "Send SMS Request",
+  "description": "Request body for sending an SMS notification via the GOV.UK Notify API.",
+  "type": "object",
+  "required": ["phone_number", "template_id"],
+  "properties": {
+    "phone_number": {
+      "type": "string",
+      "description": "UK mobile phone number of the recipient. E.164 format recommended.",
+      "example": "+447900900123"
+    },
+    "template_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "UUID of the SMS template to use."
+    },
+    "personalisation": {
+      "type": "object",
+      "additionalProperties": { "type": "string" },
+      "description": "Key-value pairs to fill placeholders in the template."
+    },
+    "reference": {
+      "type": "string",
+      "description": "Client-supplied unique reference string for this notification."
+    },
+    "sms_sender_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "UUID of an SMS sender configured on the service. Overrides service default."
+    }
+  },
+  "additionalProperties": false
+}

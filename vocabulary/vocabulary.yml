@@ -1,0 +1,98 @@
+title: GOV.UK Notify API Vocabulary
+description: Domain vocabulary and terminology for the GOV.UK Notify notification service API.
+url: https://docs.notifications.service.gov.uk/
+
+terms:
+
+  - term: notification
+    definition: >-
+      A message sent to a citizen via email, SMS, or physical letter through the GOV.UK Notify
+      platform. Each notification has a unique UUID and a status that tracks delivery progress.
+
+  - term: template
+    definition: >-
+      A pre-defined, reusable message structure created in the GOV.UK Notify web interface.
+      Templates contain fixed content and named placeholder fields (e.g., ((name))) that are
+      filled with personalisation values at send time. Templates are versioned.
+
+  - term: personalisation
+    definition: >-
+      Key-value pairs supplied at send time to fill placeholder fields (e.g., ((name))) in a
+      notification template. Values are strings unless sending a file by email, in which case
+      a link_to_file object is used.
+
+  - term: api_key
+    definition: >-
+      A credential issued per service on GOV.UK Notify. Three types exist: test keys (no real
+      sending), team/guest list keys (trial mode with recipient restrictions), and live keys
+      (full production access). API keys are used to derive JWT authentication tokens.
+
+  - term: jwt
+    definition: >-
+      JSON Web Token. GOV.UK Notify uses short-lived JWT tokens (signed HS256) for API
+      authentication. Tokens encode iss (service ID), iat (issued at), and exp (expiry) claims
+      and must be regenerated per request rather than cached long-term.
+
+  - term: service
+    definition: >-
+      A GOV.UK Notify account entity representing a government team or digital service.
+      Each service has its own templates, API keys, sending history, and branding settings.
+
+  - term: reference
+    definition: >-
+      A client-supplied string attached to a notification at send time for correlation and
+      reporting purposes. References are not required to be unique but are useful for
+      idempotency checks and linking notifications to records in a sending system.
+
+  - term: sms_sender_id
+    definition: >-
+      UUID identifying an SMS sender name or number configured on a GOV.UK Notify service.
+      When omitted the service default sender is used.
+
+  - term: email_reply_to_id
+    definition: >-
+      UUID identifying a reply-to email address configured on a GOV.UK Notify service.
+      When omitted, replies go to the service default reply-to address.
+
+  - term: notification_status
+    definition: >-
+      The current delivery state of a notification. Statuses differ by channel. Email statuses:
+      created, sending, delivered, permanent-failure, temporary-failure, technical-failure.
+      SMS statuses: created, sending, pending, sent, delivered, permanent-failure,
+      temporary-failure, technical-failure. Letter statuses: accepted, received, cancelled,
+      pending-virus-check, virus-scan-failed, validation-failed, technical-failure,
+      permanent-failure.
+
+  - term: precompiled_letter
+    definition: >-
+      A letter sent as a base64-encoded PDF rather than using a GOV.UK Notify template.
+      Precompiled letters must meet strict formatting requirements (A4, specific margins)
+      and are subject to a virus scan before printing.
+
+  - term: link_to_file
+    definition: >-
+      A personalisation value object used to attach a downloadable file to an email notification.
+      The file is uploaded as base64-encoded content, optionally requiring the recipient to
+      confirm their email address before downloading, and retained for 1–78 weeks.
+
+  - term: received_text_message
+    definition: >-
+      An inbound SMS message received by a GOV.UK Notify service's phone number. Requires
+      inbound SMS to be enabled on the service. Accessible via the received-text-messages endpoint.
+
+  - term: postage
+    definition: >-
+      The postage class for a letter notification. Options are first (first-class), second
+      (second-class), and economy (international). Determines speed of delivery and cost.
+
+  - term: rate_limit
+    definition: >-
+      GOV.UK Notify enforces a limit of 3,000 messages per minute per API key. Exceeding this
+      limit returns HTTP 429 TooManyRequestsError. Daily and annual allowances also apply
+      per organisation type.
+
+  - term: one_click_unsubscribe_url
+    definition: >-
+      An HTTPS URL implementing RFC 8058 one-click unsubscribe, included as an email header
+      to help recipients opt out of notifications without visiting a web page. Recommended for
+      high-volume and marketing-style sends.

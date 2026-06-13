@@ -55,6 +55,8 @@ apis:
         url: https://docs.notifications.service.gov.uk/rest-api.html
       - type: Website
         url: https://www.notifications.service.gov.uk/
+      - type: OpenAPI
+        url: openapi/openapi.yml
 
   - aid: gov-uk-notify:python-client
     name: GOV.UK Notify Python Client

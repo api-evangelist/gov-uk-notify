@@ -1,0 +1,43 @@
+{
+  "summary": "Send an email notification",
+  "description": "Example request and response for sending an email via the GOV.UK Notify API.",
+  "request": {
+    "method": "POST",
+    "url": "https://api.notifications.service.gov.uk/v2/notifications/email",
+    "headers": {
+      "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "email_address": "citizen@example.com",
+      "template_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+      "personalisation": {
+        "name": "John Smith",
+        "reference_number": "GDS-2024-001234",
+        "service_name": "Apply for a driving licence"
+      },
+      "reference": "application-confirmation-001234",
+      "one_click_unsubscribe_url": "https://example.service.gov.uk/unsubscribe?token=abc123"
+    }
+  },
+  "response": {
+    "status": 201,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "id": "bfb50d92-100d-4b8b-b559-14fa3b091cda",
+      "reference": "application-confirmation-001234",
+      "content": {
+        "subject": "Your application has been received – Apply for a driving licence",
+        "body": "Dear John Smith,\n\nWe have received your application (reference: GDS-2024-001234) for Apply for a driving licence.\n\nWe will contact you within 5 working days.\n\nGOV.UK Notify Team"
+      },
+      "uri": "https://api.notifications.service.gov.uk/v2/notifications/bfb50d92-100d-4b8b-b559-14fa3b091cda",
+      "template": {
+        "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+        "version": 3,
+        "uri": "https://api.notifications.service.gov.uk/v2/template/a1b2c3d4-e5f6-7890-abcd-ef1234567890/version/3"
+      }
+    }
+  }
+}

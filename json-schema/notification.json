@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/gov-uk-notify/main/json-schema/notification.json",
+  "title": "Notification",
+  "description": "A GOV.UK Notify notification object returned when retrieving notification status.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique identifier for the notification."
+    },
+    "reference": {
+      "type": ["string", "null"],
+      "description": "Client-supplied reference string."
+    },
+    "email_address": {
+      "type": "string",
+      "format": "email",
+      "description": "Recipient email address (email notifications only)."
+    },
+    "phone_number": {
+      "type": "string",
+      "description": "Recipient phone number (SMS notifications only)."
+    },
+    "line_1": { "type": "string", "description": "Address line 1 (letter notifications only)." },
+    "line_2": { "type": ["string", "null"] },
+    "line_3": { "type": ["string", "null"] },
+    "line_4": { "type": ["string", "null"] },
+    "line_5": { "type": ["string", "null"] },
+    "line_6": { "type": ["string", "null"] },
+    "postcode": { "type": ["string", "null"], "description": "Postcode (letter notifications only)." },
+    "type": {
+      "type": "string",
+      "enum": ["email", "sms", "letter"],
+      "description": "Type of notification."
+    },
+    "status": {
+      "type": "string",
+      "description": "Current delivery status. Values vary by notification type.",
+      "examples": [
+        "created", "sending", "delivered", "permanent-failure",
+        "temporary-failure", "technical-failure", "accepted", "received",
+        "pending", "sent", "cancelled", "pending-virus-check",
+        "virus-scan-failed", "validation-failed"
+      ]
+    },
+    "template": {
+      "type": "object",
+      "description": "Reference to the template used.",
+      "properties": {
+        "id": { "type": "string", "format": "uuid" },
+        "version": { "type": "integer" },
+        "uri": { "type": "string", "format": "uri" }
+      }
+    },
+    "body": {
+      "type": "string",
+      "description": "Rendered notification body."
+    },
+    "subject": {
+      "type": ["string", "null"],
+      "description": "Rendered email subject (email notifications only)."
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp when the notification was created."
+    },
+    "sent_at": {
+      "type": ["string", "null"],
+      "format": "date-time",
+      "description": "ISO 8601 timestamp when the notification was sent."
+    },
+    "completed_at": {
+      "type": ["string", "null"],
+      "format": "date-time",
+      "description": "ISO 8601 timestamp when the notification reached a terminal status."
+    },
+    "estimated_delivery": {
+      "type": ["string", "null"],
+      "format": "date-time",
+      "description": "Estimated delivery time (letter notifications only)."
+    },
+    "cost_in_pounds": {
+      "type": ["number", "null"],
+      "description": "Cost of the notification in GBP."
+    },
+    "postage": {
+      "type": ["string", "null"],
+      "enum": ["first", "second", "economy", null],
+      "description": "Postage class used (letter notifications only)."
+    },
+    "created_by_name": {
+      "type": ["string", "null"],
+      "description": "Name of the user who sent the notification (if sent via the web interface)."
+    }
+  }
+}

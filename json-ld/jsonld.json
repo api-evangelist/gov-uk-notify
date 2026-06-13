@@ -1,0 +1,94 @@
+{
+  "@context": {
+    "@vocab": "https://schema.org/",
+    "notify": "https://docs.notifications.service.gov.uk/vocabulary#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "hydra": "http://www.w3.org/ns/hydra/core#"
+  },
+  "@graph": [
+    {
+      "@id": "https://api.notifications.service.gov.uk",
+      "@type": "WebAPI",
+      "name": "GOV.UK Notify API",
+      "description": "GOV.UK Notify REST API for sending and tracking government notifications (email, SMS, letters) to citizens.",
+      "url": "https://api.notifications.service.gov.uk",
+      "documentation": "https://docs.notifications.service.gov.uk/rest-api.html",
+      "provider": {
+        "@type": "GovernmentOrganization",
+        "name": "Government Digital Service",
+        "url": "https://www.gov.uk/government/organisations/government-digital-service"
+      },
+      "termsOfService": "https://www.notifications.service.gov.uk/terms",
+      "serviceType": "NotificationService",
+      "areaServed": {
+        "@type": "Country",
+        "name": "United Kingdom"
+      }
+    },
+    {
+      "@id": "notify:Notification",
+      "@type": "rdfs:Class",
+      "rdfs:label": "Notification",
+      "rdfs:comment": "A message sent to a citizen via email, SMS, or physical letter through GOV.UK Notify.",
+      "rdfs:subClassOf": "schema:Message"
+    },
+    {
+      "@id": "notify:Template",
+      "@type": "rdfs:Class",
+      "rdfs:label": "Template",
+      "rdfs:comment": "A versioned, reusable message structure with named placeholders for personalisation."
+    },
+    {
+      "@id": "notify:ReceivedTextMessage",
+      "@type": "rdfs:Class",
+      "rdfs:label": "ReceivedTextMessage",
+      "rdfs:comment": "An inbound SMS message received by a GOV.UK Notify service phone number.",
+      "rdfs:subClassOf": "schema:Message"
+    },
+    {
+      "@id": "notify:sendSms",
+      "@type": "hydra:Operation",
+      "rdfs:label": "Send SMS",
+      "hydra:method": "POST",
+      "hydra:expects": "notify:SendSmsRequest",
+      "hydra:returns": "notify:Notification"
+    },
+    {
+      "@id": "notify:sendEmail",
+      "@type": "hydra:Operation",
+      "rdfs:label": "Send Email",
+      "hydra:method": "POST",
+      "hydra:expects": "notify:SendEmailRequest",
+      "hydra:returns": "notify:Notification"
+    },
+    {
+      "@id": "notify:sendLetter",
+      "@type": "hydra:Operation",
+      "rdfs:label": "Send Letter",
+      "hydra:method": "POST",
+      "hydra:expects": "notify:SendLetterRequest",
+      "hydra:returns": "notify:Notification"
+    },
+    {
+      "@id": "notify:notificationId",
+      "@type": "rdf:Property",
+      "rdfs:label": "notification ID",
+      "rdfs:comment": "UUID uniquely identifying a GOV.UK Notify notification.",
+      "schema:rangeIncludes": { "@id": "schema:Text" }
+    },
+    {
+      "@id": "notify:status",
+      "@type": "rdf:Property",
+      "rdfs:label": "notification status",
+      "rdfs:comment": "Current delivery status of a notification. Values vary by channel (email, sms, letter).",
+      "schema:rangeIncludes": { "@id": "schema:Text" }
+    },
+    {
+      "@id": "notify:reference",
+      "@type": "rdf:Property",
+      "rdfs:label": "client reference",
+      "rdfs:comment": "Client-supplied string for correlating notifications with records in the sending system.",
+      "schema:rangeIncludes": { "@id": "schema:Text" }
+    }
+  ]
+}

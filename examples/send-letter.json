@@ -1,0 +1,46 @@
+{
+  "summary": "Send a letter notification",
+  "description": "Example request and response for sending a physical letter via the GOV.UK Notify API.",
+  "request": {
+    "method": "POST",
+    "url": "https://api.notifications.service.gov.uk/v2/notifications/letter",
+    "headers": {
+      "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "template_id": "c3d4e5f6-a7b8-9012-cdef-234567890abc",
+      "personalisation": {
+        "address_line_1": "The Occupier",
+        "address_line_2": "123 High Street",
+        "address_line_3": "London",
+        "postcode": "SW1A 1AA",
+        "name": "The Occupier",
+        "reference_number": "LC-2024-005678",
+        "expiry_date": "31 March 2025"
+      },
+      "reference": "licence-renewal-005678"
+    }
+  },
+  "response": {
+    "status": 201,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "id": "d09d4c4e-f5a6-7b89-0123-ef456789abcd",
+      "reference": "licence-renewal-005678",
+      "content": {
+        "body": "The Occupier\n123 High Street\nLondon\nSW1A 1AA\n\nDear The Occupier,\n\nYour licence (reference: LC-2024-005678) is due to expire on 31 March 2025.\n\nPlease renew it at your earliest convenience.\n\nGOV.UK Service Team",
+        "subject": "Licence renewal notice"
+      },
+      "uri": "https://api.notifications.service.gov.uk/v2/notifications/d09d4c4e-f5a6-7b89-0123-ef456789abcd",
+      "template": {
+        "id": "c3d4e5f6-a7b8-9012-cdef-234567890abc",
+        "version": 2,
+        "uri": "https://api.notifications.service.gov.uk/v2/template/c3d4e5f6-a7b8-9012-cdef-234567890abc/version/2"
+      },
+      "scheduled_for": null
+    }
+  }
+}
