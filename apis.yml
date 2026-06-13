@@ -1,0 +1,195 @@
+aid: gov-uk-notify
+name: GOV.UK Notify
+description: >-
+  GOV.UK Notify is a UK government notification service operated by the Government Digital Service (GDS)
+  that enables central government, local authorities, NHS organisations, and other eligible public bodies
+  to send emails, text messages, and letters to citizens on behalf of government services. The platform
+  provides a REST API, a web-based sending interface, and official client libraries for Python, Java,
+  .NET, Node.js, PHP, and Ruby. Emails are free and unlimited; SMS messages include an annual free
+  allowance by organisation type with per-message overage at 2.4p; physical letters are priced by
+  postage class and page count with print and postage included. The API uses JWT-based authentication,
+  supports template-driven personalisation, and enforces a throughput limit of 3,000 messages per
+  minute per API key type.
+kind: government
+image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+url: https://raw.githubusercontent.com/api-evangelist/gov-uk-notify/refs/heads/main/apis.yml
+tags:
+  - Notifications
+  - Email
+  - SMS
+  - Text Messages
+  - Letters
+  - Government
+  - United Kingdom
+  - Public Sector
+  - GDS
+  - REST
+created: '2026-06-13'
+modified: '2026-06-13'
+specificationVersion: '0.19'
+apis:
+
+  - aid: gov-uk-notify:notifications-api
+    name: GOV.UK Notify Notifications API
+    description: >-
+      The GOV.UK Notify REST API enables government services to programmatically send emails, text
+      messages, and letters to citizens. It supports sending individual notifications and bulk sends
+      via pre-defined templates with personalisation fields. The API also provides endpoints for
+      retrieving notification status, listing past messages, fetching and previewing templates, and
+      accessing received inbound text messages. Authentication uses short-lived JSON Web Tokens (JWT)
+      derived from API keys issued per service. Three API key types exist: test (non-persisting),
+      team/guest list (trial mode with recipient restrictions), and live (full production access).
+    humanURL: https://docs.notifications.service.gov.uk/rest-api.html
+    baseURL: https://api.notifications.service.gov.uk
+    tags:
+      - Notifications
+      - Email
+      - SMS
+      - Letters
+      - REST
+      - JWT
+      - Templates
+      - Government
+    properties:
+      - type: Documentation
+        url: https://docs.notifications.service.gov.uk/rest-api.html
+      - type: Website
+        url: https://www.notifications.service.gov.uk/
+
+  - aid: gov-uk-notify:python-client
+    name: GOV.UK Notify Python Client
+    description: >-
+      Official Python client library for the GOV.UK Notify API. Wraps the REST API with idiomatic
+      Python methods for sending SMS, email, and letter notifications; retrieving notification status;
+      listing notifications with filtering; fetching templates and previewing them; and handling
+      inbound received text messages. Available on PyPI as notifications-python-client.
+    humanURL: https://docs.notifications.service.gov.uk/python.html
+    baseURL: https://api.notifications.service.gov.uk
+    tags:
+      - Python
+      - SDK
+      - Client Library
+      - Notifications
+    properties:
+      - type: Documentation
+        url: https://docs.notifications.service.gov.uk/python.html
+      - type: x-github
+        url: https://github.com/alphagov/notifications-python-client
+
+  - aid: gov-uk-notify:java-client
+    name: GOV.UK Notify Java Client
+    description: >-
+      Official Java client library for the GOV.UK Notify API, providing methods for sending emails,
+      SMS messages, and letters, as well as retrieving notification statuses and managing templates.
+    humanURL: https://docs.notifications.service.gov.uk/java.html
+    baseURL: https://api.notifications.service.gov.uk
+    tags:
+      - Java
+      - SDK
+      - Client Library
+      - Notifications
+    properties:
+      - type: Documentation
+        url: https://docs.notifications.service.gov.uk/java.html
+      - type: x-github
+        url: https://github.com/alphagov/notifications-java-client
+
+  - aid: gov-uk-notify:dotnet-client
+    name: GOV.UK Notify .NET Client
+    description: >-
+      Official .NET client library for the GOV.UK Notify API supporting C# and other .NET languages
+      for sending government notifications via email, SMS, and letters.
+    humanURL: https://docs.notifications.service.gov.uk/net.html
+    baseURL: https://api.notifications.service.gov.uk
+    tags:
+      - .NET
+      - C#
+      - SDK
+      - Client Library
+      - Notifications
+    properties:
+      - type: Documentation
+        url: https://docs.notifications.service.gov.uk/net.html
+      - type: x-github
+        url: https://github.com/alphagov/notifications-net-client
+
+  - aid: gov-uk-notify:nodejs-client
+    name: GOV.UK Notify Node.js Client
+    description: >-
+      Official Node.js client library for the GOV.UK Notify API for sending government notifications
+      via email, SMS, and letters from JavaScript and TypeScript applications.
+    humanURL: https://docs.notifications.service.gov.uk/node.html
+    baseURL: https://api.notifications.service.gov.uk
+    tags:
+      - Node.js
+      - JavaScript
+      - SDK
+      - Client Library
+      - Notifications
+    properties:
+      - type: Documentation
+        url: https://docs.notifications.service.gov.uk/node.html
+      - type: x-github
+        url: https://github.com/alphagov/notifications-node-client
+
+  - aid: gov-uk-notify:php-client
+    name: GOV.UK Notify PHP Client
+    description: >-
+      Official PHP client library for the GOV.UK Notify API for sending government notifications
+      via email, SMS, and letters from PHP applications.
+    humanURL: https://docs.notifications.service.gov.uk/php.html
+    baseURL: https://api.notifications.service.gov.uk
+    tags:
+      - PHP
+      - SDK
+      - Client Library
+      - Notifications
+    properties:
+      - type: Documentation
+        url: https://docs.notifications.service.gov.uk/php.html
+      - type: x-github
+        url: https://github.com/alphagov/notifications-php-client
+
+  - aid: gov-uk-notify:ruby-client
+    name: GOV.UK Notify Ruby Client
+    description: >-
+      Official Ruby client library for the GOV.UK Notify API for sending government notifications
+      via email, SMS, and letters from Ruby and Ruby on Rails applications.
+    humanURL: https://docs.notifications.service.gov.uk/ruby.html
+    baseURL: https://api.notifications.service.gov.uk
+    tags:
+      - Ruby
+      - SDK
+      - Client Library
+      - Notifications
+    properties:
+      - type: Documentation
+        url: https://docs.notifications.service.gov.uk/ruby.html
+      - type: x-github
+        url: https://github.com/alphagov/notifications-ruby-client
+
+common:
+  - type: Website
+    url: https://www.notifications.service.gov.uk/
+  - type: Documentation
+    url: https://docs.notifications.service.gov.uk/
+  - type: Pricing
+    url: https://www.notifications.service.gov.uk/pricing
+  - type: Status
+    url: https://status.notifications.service.gov.uk/
+  - type: Support
+    url: https://www.notifications.service.gov.uk/support
+  - type: Blog
+    url: https://gds.blog.gov.uk/category/gov-uk-notify/
+  - type: x-github
+    url: https://github.com/alphagov/notifications-api
+  - type: Plans
+    url: plans/plans.yml
+  - type: RateLimits
+    url: rate-limits/rate-limits.yml
+  - type: FinOps
+    url: finops/finops.yml
+
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

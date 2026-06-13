@@ -1,0 +1,118 @@
+name: GOV.UK Notify Plans
+description: GOV.UK Notify pricing and service tiers for government organizations sending notifications via email, SMS, and letters.
+url: https://www.notifications.service.gov.uk/pricing
+plans:
+
+  - name: Email Free Tier
+    description: Unlimited free emails for any eligible government or public sector organization.
+    url: https://www.notifications.service.gov.uk/pricing
+    price: 0
+    currency: GBP
+    billing_period: unlimited
+    unit: email
+    features:
+      - Unlimited outbound emails
+      - No setup fee
+      - No monthly charge
+      - No procurement requirement
+      - Template-based sending
+      - Delivery status tracking
+
+  - name: SMS - Central Government
+    description: Free annual allowance for central government services, 2.4p per additional message.
+    url: https://www.notifications.service.gov.uk/pricing/text-messages
+    price: 0
+    currency: GBP
+    billing_period: annual
+    unit: text message
+    free_quota: 20000
+    overage_price: 0.024
+    overage_currency: GBP
+    overage_unit: text message
+    features:
+      - 20,000 free messages per year (renews 1 April)
+      - 2.4p per message above free allowance (plus VAT)
+      - 160 characters per standard message
+      - Long message support (charged per 153-char segment)
+      - 100 international messages included by default
+      - International rate multipliers vary by country
+
+  - name: SMS - Local Authorities
+    description: Free annual allowance for local authority services, 2.4p per additional message.
+    url: https://www.notifications.service.gov.uk/pricing/text-messages
+    price: 0
+    currency: GBP
+    billing_period: annual
+    unit: text message
+    free_quota: 10000
+    overage_price: 0.024
+    overage_currency: GBP
+    overage_unit: text message
+    features:
+      - 10,000 free messages per year (renews 1 April)
+      - 2.4p per message above free allowance (plus VAT)
+      - Allowance is discretionary for high-volume senders
+
+  - name: SMS - State-Funded Schools and Other Orgs
+    description: Free annual allowance for state-funded schools and other eligible organisations.
+    url: https://www.notifications.service.gov.uk/pricing/text-messages
+    price: 0
+    currency: GBP
+    billing_period: annual
+    unit: text message
+    free_quota: 5000
+    overage_price: 0.024
+    overage_currency: GBP
+    overage_unit: text message
+    features:
+      - 5,000 free messages per year (renews 1 April)
+      - 2.4p per message above free allowance (plus VAT)
+
+  - name: Letters - Economy
+    description: Slowest and cheapest physical letter delivery (3-6 working days).
+    url: https://www.notifications.service.gov.uk/pricing/letters
+    currency: GBP
+    unit: letter
+    features:
+      - 1 sheet 64p, 2 sheets 69p, 3 sheets 73p, 4 sheets 78p, 5 sheets 82p (plus VAT)
+      - Double-sided colour printing included
+      - C5 envelope with address window included
+      - Paper and postage included
+      - Maximum 10 pages (5 double-sided sheets)
+      - 3-6 working day delivery
+
+  - name: Letters - Second Class
+    description: Standard second-class physical letter delivery.
+    url: https://www.notifications.service.gov.uk/pricing/letters
+    currency: GBP
+    unit: letter
+    features:
+      - 1 sheet 73p, 2 sheets 77p, 3 sheets 82p, 4 sheets 87p, 5 sheets 91p (plus VAT)
+      - Double-sided colour printing included
+      - C5 envelope with address window included
+      - Paper and postage included
+      - Maximum 10 pages (5 double-sided sheets)
+
+  - name: Letters - First Class
+    description: First-class physical letter delivery.
+    url: https://www.notifications.service.gov.uk/pricing/letters
+    currency: GBP
+    unit: letter
+    features:
+      - 1 sheet £1.56, 2 sheets £1.61, 3 sheets £1.66, 4 sheets £1.71, 5 sheets £1.76 (plus VAT)
+      - Double-sided colour printing included
+      - C5 envelope with address window included
+      - Paper and postage included
+      - Maximum 10 pages (5 double-sided sheets)
+
+  - name: Letters - International
+    description: International physical letter delivery.
+    url: https://www.notifications.service.gov.uk/pricing/letters
+    currency: GBP
+    unit: letter
+    features:
+      - 1 sheet £1.80, 2 sheets £1.84, 3 sheets £1.88, 4 sheets £1.92, 5 sheets £1.96 (plus VAT)
+      - Double-sided colour printing included
+      - C5 envelope with address window included
+      - Paper and postage included
+      - Maximum 10 pages (5 double-sided sheets)

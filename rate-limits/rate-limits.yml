@@ -1,0 +1,88 @@
+name: GOV.UK Notify Rate Limits
+description: Rate limits and daily send quotas for the GOV.UK Notify API.
+url: https://docs.notifications.service.gov.uk/rest-api.html
+rate_limits:
+
+  - name: Per-Minute Throughput Limit
+    description: Maximum number of messages that can be sent per minute per API key type (rolling window).
+    limit: 3000
+    period: minute
+    unit: messages
+    scope: per_api_key_type
+    error_code: 429
+    error_type: RateLimitError
+    notes: Applied per API key type (test, team/guest list, or live). Limit is calculated on a rolling basis.
+
+  - name: Daily SMS Limit
+    description: Maximum number of SMS text messages that can be sent in a single day.
+    limit: 250000
+    period: day
+    unit: text messages
+    error_code: 429
+    error_type: TooManyRequestsError
+    notes: Includes 100 international messages by default.
+
+  - name: Daily Email Limit
+    description: Maximum number of emails that can be sent in a single day.
+    limit: 250000
+    period: day
+    unit: emails
+    error_code: 429
+    error_type: TooManyRequestsError
+
+  - name: Daily Letter Limit
+    description: Maximum number of letters that can be sent in a single day.
+    limit: 20000
+    period: day
+    unit: letters
+    error_code: 429
+    error_type: TooManyRequestsError
+
+  - name: Phone Network Identical Messages
+    description: Maximum identical messages sent to the same phone network per hour.
+    limit: 20
+    period: hour
+    unit: identical messages
+    scope: per_phone_network
+    notes: Prevents spam patterns on any single phone network.
+
+  - name: Phone Network Any Content
+    description: Maximum messages of any content sent to the same phone network per hour.
+    limit: 100
+    period: hour
+    unit: messages
+    scope: per_phone_network
+
+  - name: JWT Token Expiry
+    description: API authentication tokens expire within 30 seconds to prevent replay attacks.
+    limit: 30
+    period: seconds
+    unit: JWT token lifetime
+    error_code: 403
+    error_type: AuthError
+    notes: Server clock must be within 30 seconds of UTC or authentication will fail.
+
+  - name: Notification List Page Size
+    description: Maximum number of notifications returned per page when listing messages.
+    limit: 250
+    period: request
+    unit: notifications per page
+
+  - name: Received Text Messages Page Size
+    description: Maximum number of received text messages returned per page.
+    limit: 250
+    period: request
+    unit: received texts per page
+
+  - name: File Upload Size
+    description: Maximum file size for email attachments and precompiled letters.
+    limit: 2
+    period: request
+    unit: MB
+
+  - name: Letter Pages
+    description: Maximum number of pages in a single letter.
+    limit: 10
+    period: letter
+    unit: pages
+    notes: Equivalent to 5 double-sided sheets in a C5 envelope.

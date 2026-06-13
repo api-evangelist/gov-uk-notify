@@ -1,0 +1,99 @@
+name: GOV.UK Notify FinOps
+description: Financial operations guidance for managing GOV.UK Notify costs and usage across government services.
+url: https://www.notifications.service.gov.uk/pricing
+
+cost_model:
+  emails:
+    description: Emails are free with no volume cap.
+    price_per_unit: 0
+    currency: GBP
+    unit: email
+    notes: No monthly fee, no setup cost, no procurement required.
+
+  sms:
+    description: Text messages have an annual free allowance by organisation type; overage charged at 2.4p each.
+    currency: GBP
+    overage_price_per_unit: 0.024
+    unit: text message
+    vat_applicable: true
+    free_allowances:
+      - org_type: Central government
+        annual_free_messages: 20000
+        allowance_renewal: April 1 each year
+      - org_type: Local authorities
+        annual_free_messages: 10000
+        allowance_renewal: April 1 each year
+      - org_type: State-funded schools
+        annual_free_messages: 5000
+        allowance_renewal: April 1 each year
+      - org_type: Other organisations
+        annual_free_messages: 5000
+        allowance_renewal: April 1 each year
+      - org_type: GP surgeries
+        annual_free_messages: 0
+        notes: No free allowance; all messages charged at 2.4p.
+    cost_factors:
+      - factor: Message length
+        notes: Messages over 160 characters are charged as multiple segments (up to 306 chars = 2 messages, etc.)
+      - factor: Special characters
+        notes: Characters []{}^\\|~€ count double, reducing effective character limit
+      - factor: Accented characters (certain)
+        notes: Some accented letters reduce character limit to 70 per segment
+      - factor: International destination
+        notes: International rate multipliers vary by country (1x to 12x base rate)
+
+  letters:
+    description: Letters priced by postage class and number of sheets; includes print, paper, and postage.
+    currency: GBP
+    vat_applicable: true
+    postage_classes:
+      - class: Economy
+        sheets:
+          1: 0.64
+          2: 0.69
+          3: 0.73
+          4: 0.78
+          5: 0.82
+        delivery_time: 3-6 working days
+      - class: Second Class
+        sheets:
+          1: 0.73
+          2: 0.77
+          3: 0.82
+          4: 0.87
+          5: 0.91
+      - class: First Class
+        sheets:
+          1: 1.56
+          2: 1.61
+          3: 1.66
+          4: 1.71
+          5: 1.76
+      - class: International
+        sheets:
+          1: 1.80
+          2: 1.84
+          3: 1.88
+          4: 1.92
+          5: 1.96
+
+optimization_guidance:
+  - tip: Prefer email over SMS
+    description: Emails are always free; use SMS only when email cannot reach the citizen.
+  - tip: Keep SMS under 160 characters
+    description: Avoid overage charges by keeping messages within one standard 160-character segment.
+  - tip: Avoid special characters in SMS
+    description: Characters such as []{}^\\|~€ halve the effective character count per segment.
+  - tip: Choose Economy postage for non-urgent letters
+    description: Economy mail can save up to 9p per letter versus second class with no change in content.
+  - tip: Monitor free allowance consumption
+    description: Track annual SMS usage; allowances reset on 1 April and high-volume senders may lose eligibility.
+  - tip: Use test API keys for development
+    description: Test keys do not consume free allowances or incur costs, allowing safe load testing.
+  - tip: Batch via spreadsheet for one-off campaigns
+    description: Non-API spreadsheet uploads avoid integration overhead for irregular bulk sends.
+
+billing_contacts:
+  - name: GOV.UK Notify Support
+    url: https://www.notifications.service.gov.uk/support
+    notes: Contact for billing questions, invoicing, or procurement enquiries.
