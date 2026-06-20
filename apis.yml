@@ -11,7 +11,7 @@ description: >-
   supports template-driven personalisation, and enforces a throughput limit of 3,000 messages per
   minute per API key type.
 kind: government
-image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
 url: https://raw.githubusercontent.com/api-evangelist/gov-uk-notify/refs/heads/main/apis.yml
 tags:
   - Notifications
