@@ -171,6 +171,12 @@ apis:
         url: https://github.com/alphagov/notifications-ruby-client
 
 common:
+  - type: VulnerabilityDisclosure
+    url: security/gov-uk-notify-vulnerability-disclosure.yml
+  - type: DomainSecurity
+    url: security/gov-uk-notify-domain-security.yml
+  - type: Authentication
+    url: authentication/gov-uk-notify-authentication.yml
   - type: Website
     url: https://www.notifications.service.gov.uk/
   - type: Documentation

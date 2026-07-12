@@ -1,0 +1,15 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/openapi.yml
+summary:
+  types:
+  - http
+schemes:
+- name: bearerAuth
+  type: http
+  scheme: bearer
+  bearerFormat: JWT
+  description: JWT token signed with HS256 using the service API key secret. Tokens are short-lived
+    and must include iss (service ID), iat (issued at), and exp (expiry) claims.
+  sources:
+  - openapi/openapi.yml
