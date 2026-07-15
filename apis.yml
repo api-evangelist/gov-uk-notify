@@ -171,6 +171,8 @@ apis:
         url: https://github.com/alphagov/notifications-ruby-client
 
 common:
+  - type: AgenticAccess
+    url: agentic-access/gov-uk-notify-agentic-access.yml
   - type: VulnerabilityDisclosure
     url: security/gov-uk-notify-vulnerability-disclosure.yml
   - type: DomainSecurity
