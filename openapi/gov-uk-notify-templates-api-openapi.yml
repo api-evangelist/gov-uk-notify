@@ -1,0 +1,316 @@
+openapi: 3.1.0
+info:
+  title: GOV.UK Notify Notifications Templates API
+  description: GOV.UK Notify is a UK government notification service operated by the Government Digital Service (GDS) that enables central government, local authorities, NHS organisations, and other eligible public bodies to send emails, text messages, and letters to citizens on behalf of government services. The API uses JWT-based authentication and supports template-driven personalisation.
+  version: 2.0.0
+  contact:
+    url: https://www.notifications.service.gov.uk/support
+  license:
+    name: MIT
+    url: https://github.com/alphagov/notifications-api/blob/main/LICENSE
+  termsOfService: https://www.notifications.service.gov.uk/terms
+servers:
+- url: https://api.notifications.service.gov.uk
+  description: GOV.UK Notify production API
+security:
+- bearerAuth: []
+tags:
+- name: Templates
+  description: Retrieve and preview notification templates
+paths:
+  /v2/template/{template_id}:
+    get:
+      operationId: getTemplate
+      summary: Get template by ID
+      description: Retrieve the current version of a template by its UUID.
+      tags:
+      - Templates
+      parameters:
+      - name: template_id
+        in: path
+        required: true
+        description: UUID of the template
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: Template details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Template'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /v2/template/{template_id}/version/{version}:
+    get:
+      operationId: getTemplateVersion
+      summary: Get template by ID and version
+      description: Retrieve a specific version of a template by its UUID and version number.
+      tags:
+      - Templates
+      parameters:
+      - name: template_id
+        in: path
+        required: true
+        description: UUID of the template
+        schema:
+          type: string
+          format: uuid
+      - name: version
+        in: path
+        required: true
+        description: Version number of the template
+        schema:
+          type: integer
+          minimum: 1
+      responses:
+        '200':
+          description: Template version details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Template'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /v2/templates:
+    get:
+      operationId: listTemplates
+      summary: List all templates
+      description: Retrieve all templates for the service, optionally filtered by type.
+      tags:
+      - Templates
+      parameters:
+      - name: type
+        in: query
+        required: false
+        description: Filter templates by type
+        schema:
+          type: string
+          enum:
+          - email
+          - sms
+          - letter
+      responses:
+        '200':
+          description: List of templates
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateList'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /v2/template/{template_id}/preview:
+    post:
+      operationId: previewTemplate
+      summary: Generate a template preview
+      description: Generate a preview of a template with personalisation values substituted, without sending a real notification.
+      tags:
+      - Templates
+      parameters:
+      - name: template_id
+        in: path
+        required: true
+        description: UUID of the template to preview
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TemplatePreviewRequest'
+            example:
+              personalisation:
+                name: Jane
+                appointment_date: 1 January 2024
+      responses:
+        '200':
+          description: Rendered template preview
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplatePreview'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+components:
+  responses:
+    Forbidden:
+      description: Authentication failed or API key lacks permission
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            status_code: 403
+            errors:
+            - error: AuthError
+              message: 'Invalid token: API key not found'
+    NotFound:
+      description: Requested resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            status_code: 404
+            errors:
+            - error: NoResultFound
+              message: No result found
+    BadRequest:
+      description: Validation error in request body or parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            status_code: 400
+            errors:
+            - error: ValidationError
+              message: phone_number is not a valid phone number
+    ServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            status_code: 500
+            errors:
+            - error: Exception
+              message: Internal server error
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        status_code:
+          type: integer
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              error:
+                type: string
+                description: Machine-readable error type
+              message:
+                type: string
+                description: Human-readable error description
+    TemplatePreview:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        type:
+          type: string
+          enum:
+          - email
+          - sms
+          - letter
+        version:
+          type: integer
+        body:
+          type: string
+          description: Rendered template body with personalisation applied
+        subject:
+          type: string
+          nullable: true
+          description: Rendered email subject (email templates only)
+        html:
+          type: string
+          nullable: true
+          description: HTML-rendered body (email templates only)
+        postage:
+          type: string
+          nullable: true
+          description: Postage class (letter templates only)
+    Template:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        type:
+          type: string
+          enum:
+          - email
+          - sms
+          - letter
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+          nullable: true
+        created_by:
+          type: string
+          format: email
+        version:
+          type: integer
+        body:
+          type: string
+          description: Raw template body with placeholder syntax
+        subject:
+          type: string
+          nullable: true
+          description: Email subject line (email templates only)
+        letter_contact_block:
+          type: string
+          nullable: true
+          description: Contact block for letter templates
+        postage:
+          type: string
+          nullable: true
+          description: Default postage class (letter templates only)
+        personalisation:
+          type: object
+          nullable: true
+          additionalProperties:
+            type: object
+            properties:
+              required:
+                type: boolean
+    TemplatePreviewRequest:
+      type: object
+      required:
+      - personalisation
+      properties:
+        personalisation:
+          type: object
+          additionalProperties:
+            type: string
+          description: Key-value pairs to substitute into template placeholders
+    TemplateList:
+      type: object
+      properties:
+        templates:
+          type: array
+          items:
+            $ref: '#/components/schemas/Template'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT token signed with HS256 using the service API key secret. Tokens are short-lived and must include iss (service ID), iat (issued at), and exp (expiry) claims.

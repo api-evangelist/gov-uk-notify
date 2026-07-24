@@ -1,0 +1,131 @@
+openapi: 3.1.0
+info:
+  title: GOV.UK Notify Notifications Received Text Messages API
+  description: GOV.UK Notify is a UK government notification service operated by the Government Digital Service (GDS) that enables central government, local authorities, NHS organisations, and other eligible public bodies to send emails, text messages, and letters to citizens on behalf of government services. The API uses JWT-based authentication and supports template-driven personalisation.
+  version: 2.0.0
+  contact:
+    url: https://www.notifications.service.gov.uk/support
+  license:
+    name: MIT
+    url: https://github.com/alphagov/notifications-api/blob/main/LICENSE
+  termsOfService: https://www.notifications.service.gov.uk/terms
+servers:
+- url: https://api.notifications.service.gov.uk
+  description: GOV.UK Notify production API
+security:
+- bearerAuth: []
+tags:
+- name: Received Text Messages
+  description: Retrieve inbound text messages
+paths:
+  /v2/received-text-messages:
+    get:
+      operationId: listReceivedTextMessages
+      summary: List received text messages
+      description: Retrieve inbound SMS messages received by the service. Returns up to 250 messages per request with pagination support.
+      tags:
+      - Received Text Messages
+      parameters:
+      - name: older_than
+        in: query
+        required: false
+        description: Message ID; returns messages older than this ID (pagination)
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: List of received text messages
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReceivedTextMessageList'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/ServerError'
+components:
+  responses:
+    Forbidden:
+      description: Authentication failed or API key lacks permission
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            status_code: 403
+            errors:
+            - error: AuthError
+              message: 'Invalid token: API key not found'
+    ServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            status_code: 500
+            errors:
+            - error: Exception
+              message: Internal server error
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        status_code:
+          type: integer
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              error:
+                type: string
+                description: Machine-readable error type
+              message:
+                type: string
+                description: Human-readable error description
+    ReceivedTextMessageList:
+      type: object
+      properties:
+        received_text_messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReceivedTextMessage'
+        links:
+          type: object
+          properties:
+            current:
+              type: string
+              format: uri
+            next:
+              type: string
+              format: uri
+              description: URL to retrieve the next page of results
+    ReceivedTextMessage:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        user_number:
+          type: string
+          description: Phone number that sent the inbound message
+        notify_number:
+          type: string
+          description: GOV.UK Notify number that received the message
+        content:
+          type: string
+          description: Text content of the received message
+        service_id:
+          type: string
+          format: uuid
+        created_at:
+          type: string
+          format: date-time
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT token signed with HS256 using the service API key secret. Tokens are short-lived and must include iss (service ID), iat (issued at), and exp (expiry) claims.
