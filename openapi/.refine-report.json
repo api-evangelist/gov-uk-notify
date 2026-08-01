@@ -1,0 +1,18 @@
+{
+  "provider": "gov-uk-notify",
+  "sources": [
+    "gov-uk-notify-notifications-api-openapi.yml",
+    "gov-uk-notify-received-text-messages-api-openapi.yml",
+    "gov-uk-notify-templates-api-openapi.yml"
+  ],
+  "outputs": [
+    "gov-uk-notify-notifications-api-openapi.yml",
+    "gov-uk-notify-received-text-messages-api-openapi.yml",
+    "gov-uk-notify-templates-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
