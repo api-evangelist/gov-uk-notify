@@ -1,0 +1,43 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "GOV.UK Notify Notifications Received Text Messages API",
+    "version": "2.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Received Text Messages",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List received text messages",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.notifications.service.gov.uk/v2/received-text-messages",
+            "params": [
+              {
+                "name": "older_than",
+                "value": "",
+                "type": "query",
+                "description": "Message ID; returns messages older than this ID (pagination)"
+              }
+            ]
+          },
+          "docs": "Retrieve inbound SMS messages received by the service. Returns up to 250 messages per request with pagination support."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

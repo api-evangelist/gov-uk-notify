@@ -1,0 +1,110 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "GOV.UK Notify Notifications Templates API",
+    "version": "2.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Templates",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get template by ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.notifications.service.gov.uk/v2/template/:template_id",
+            "params": [
+              {
+                "name": "template_id",
+                "value": "",
+                "type": "path",
+                "description": "UUID of the template"
+              }
+            ]
+          },
+          "docs": "Retrieve the current version of a template by its UUID."
+        },
+        {
+          "info": {
+            "name": "Get template by ID and version",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.notifications.service.gov.uk/v2/template/:template_id/version/:version",
+            "params": [
+              {
+                "name": "template_id",
+                "value": "",
+                "type": "path",
+                "description": "UUID of the template"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "path",
+                "description": "Version number of the template"
+              }
+            ]
+          },
+          "docs": "Retrieve a specific version of a template by its UUID and version number."
+        },
+        {
+          "info": {
+            "name": "List all templates",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.notifications.service.gov.uk/v2/templates",
+            "params": [
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "Filter templates by type"
+              }
+            ]
+          },
+          "docs": "Retrieve all templates for the service, optionally filtered by type."
+        },
+        {
+          "info": {
+            "name": "Generate a template preview",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.notifications.service.gov.uk/v2/template/:template_id/preview",
+            "params": [
+              {
+                "name": "template_id",
+                "value": "",
+                "type": "path",
+                "description": "UUID of the template to preview"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Generate a preview of a template with personalisation values substituted, without sending a real notification."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

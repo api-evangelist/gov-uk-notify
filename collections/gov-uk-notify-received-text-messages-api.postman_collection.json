@@ -1,0 +1,231 @@
+{
+  "item": [
+    {
+      "id": "1d57ffca-969d-478b-8466-7448011fc833",
+      "name": "Received Text Messages",
+      "description": {
+        "content": "Retrieve inbound text messages",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "210f6328-cfb7-4809-989f-6ed8fa7fa1f3",
+          "name": "List received text messages",
+          "request": {
+            "name": "List received text messages",
+            "description": {
+              "content": "Retrieve inbound SMS messages received by the service. Returns up to 250 messages per request with pagination support.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v2",
+                "received-text-messages"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "older_than",
+                  "value": "<uuid>",
+                  "description": "Message ID; returns messages older than this ID (pagination)"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "814b0e21-0404-444c-b46b-cd3149c5e517",
+              "name": "List of received text messages",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "received-text-messages"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "older_than",
+                      "value": "<uuid>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"received_text_messages\": [\n    {\n      \"id\": \"431b6406-75a4-be21-5c09-07ebfe3d6839\",\n      \"user_number\": \"string\",\n      \"notify_number\": \"string\",\n      \"content\": \"string\",\n      \"service_id\": \"9200d50f-2ebf-f22e-74b1-7c9303a8875a\",\n      \"created_at\": \"2010-05-16T16:24:05.919Z\"\n    },\n    {\n      \"id\": \"c685ef82-f0ac-8c7d-dc89-a76c530fe004\",\n      \"user_number\": \"string\",\n      \"notify_number\": \"string\",\n      \"content\": \"string\",\n      \"service_id\": \"c1693632-4574-6ee0-5029-64d3738fe19e\",\n      \"created_at\": \"1965-09-06T12:42:37.196Z\"\n    }\n  ],\n  \"links\": {\n    \"current\": \"http://TGaeZ.ivbnWHnY2X0W4JmCCtEp\",\n    \"next\": \"http://pgREbCDdjJdrFnTpHdGvjelNMWIMYU.hzodA6P0icA5mbs,CMfjxBA5x1A.nR\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "10d36b1f-db0f-4877-9b0c-befa64e69e02",
+              "name": "Authentication failed or API key lacks permission",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "received-text-messages"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "older_than",
+                      "value": "<uuid>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status_code\": 403,\n  \"errors\": [\n    {\n      \"error\": \"AuthError\",\n      \"message\": \"Invalid token: API key not found\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0d2cf1fd-d483-48f1-9dfd-6715530c7b64",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "received-text-messages"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "older_than",
+                      "value": "<uuid>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status_code\": 500,\n  \"errors\": [\n    {\n      \"error\": \"Exception\",\n      \"message\": \"Internal server error\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.notifications.service.gov.uk",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "07fcd022-a19c-435b-a09a-f41bf4f2b281",
+    "name": "GOV.UK Notify Notifications Received Text Messages API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "GOV.UK Notify is a UK government notification service operated by the Government Digital Service (GDS) that enables central government, local authorities, NHS organisations, and other eligible public bodies to send emails, text messages, and letters to citizens on behalf of government services. The API uses JWT-based authentication and supports template-driven personalisation.",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,150 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "GOV.UK Notify Notifications API",
+    "version": "2.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Notifications",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Send a text message",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.notifications.service.gov.uk/v2/notifications/sms",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Send a text message (SMS) notification to a recipient using a pre-defined template."
+        },
+        {
+          "info": {
+            "name": "Send an email notification",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.notifications.service.gov.uk/v2/notifications/email",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Send an email notification to a recipient using a pre-defined template. Can also be used to send a file by email by including a link_to_file object in the personalisation field."
+        },
+        {
+          "info": {
+            "name": "Send a letter notification",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.notifications.service.gov.uk/v2/notifications/letter",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Send a letter notification to a recipient using a pre-defined template, or send a precompiled letter as a base64-encoded PDF."
+        },
+        {
+          "info": {
+            "name": "Get notification by ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.notifications.service.gov.uk/v2/notifications/:notification_id",
+            "params": [
+              {
+                "name": "notification_id",
+                "value": "",
+                "type": "path",
+                "description": "UUID of the notification"
+              }
+            ]
+          },
+          "docs": "Retrieve the status and details of a single notification by its UUID."
+        },
+        {
+          "info": {
+            "name": "Get letter PDF",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.notifications.service.gov.uk/v2/notifications/:notification_id/pdf",
+            "params": [
+              {
+                "name": "notification_id",
+                "value": "",
+                "type": "path",
+                "description": "UUID of the letter notification"
+              }
+            ]
+          },
+          "docs": "Download the PDF file for a letter notification."
+        },
+        {
+          "info": {
+            "name": "List notifications",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.notifications.service.gov.uk/v2/notifications",
+            "params": [
+              {
+                "name": "template_type",
+                "value": "",
+                "type": "query",
+                "description": "Filter by notification type"
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Filter by notification status"
+              },
+              {
+                "name": "reference",
+                "value": "",
+                "type": "query",
+                "description": "Filter by client reference string"
+              },
+              {
+                "name": "older_than",
+                "value": "",
+                "type": "query",
+                "description": "UUID of a notification; returns notifications older than this ID (pagination)"
+              },
+              {
+                "name": "include_jobs",
+                "value": "",
+                "type": "query",
+                "description": "Include notifications from CSV batch uploads"
+              }
+            ]
+          },
+          "docs": "Retrieve a list of notifications sent by the service, optionally filtered by type, status, or reference. Returns up to 250 notifications per request with pagination."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,1767 @@
+{
+  "item": [
+    {
+      "id": "cffe0c12-807e-4088-8931-4af1f0c6883d",
+      "name": "Notifications",
+      "description": {
+        "content": "Send and retrieve notifications (email, SMS, letters)",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "95cbaca5-18f7-4948-a416-b89682f3999a",
+          "name": "Send a text message",
+          "request": {
+            "name": "Send a text message",
+            "description": {
+              "content": "Send a text message (SMS) notification to a recipient using a pre-defined template.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v2",
+                "notifications",
+                "sms"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"phone_number\": \"<string>\",\n  \"template_id\": \"<uuid>\",\n  \"personalisation\": {\n    \"key_0\": \"<string>\",\n    \"key_1\": \"<string>\",\n    \"key_2\": \"<string>\"\n  },\n  \"reference\": \"<string>\",\n  \"sms_sender_id\": \"<uuid>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "d78948eb-2d35-4ab7-9210-ecbbe7f50612",
+              "name": "SMS notification created successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "notifications",
+                    "sms"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"phone_number\": \"+447900900123\",\n  \"template_id\": \"f33517ff-2a88-4f6e-b855-c550268ce08a\",\n  \"personalisation\": {\n    \"name\": \"Jane\"\n  },\n  \"reference\": \"unique-ref-001\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"d7b837b3-dd33-f74e-4b07-fc51eced2ff6\",\n  \"reference\": \"string\",\n  \"content\": {\n    \"body\": \"string\",\n    \"subject\": \"string\",\n    \"from_number\": \"string\"\n  },\n  \"uri\": \"https://NQeJgwBBclFSTTOCLuRrsqcgrfi.wrEOR.hp+yjiKQKSkqCdf-\",\n  \"template\": {\n    \"id\": \"d9cfd67c-b524-30b5-8941-c2de3b09a0ba\",\n    \"version\": 2587,\n    \"uri\": \"http://BWGJMVkNZrCVDBBKGonhgbdWIQheee.tlMq2++hgQUjPsMfMqgIViN.6Enbj7OHozD2hZ,b6UftLnsEST\"\n  },\n  \"scheduled_for\": \"1966-05-03T02:54:53.314Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "cb8672ff-a2b0-4d63-bbe6-2f0a60986040",
+              "name": "Validation error in request body or parameters",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "notifications",
+                    "sms"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"phone_number\": \"+447900900123\",\n  \"template_id\": \"f33517ff-2a88-4f6e-b855-c550268ce08a\",\n  \"personalisation\": {\n    \"name\": \"Jane\"\n  },\n  \"reference\": \"unique-ref-001\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status_code\": 400,\n  \"errors\": [\n    {\n      \"error\": \"ValidationError\",\n      \"message\": \"phone_number is not a valid phone number\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2b168ed9-0687-43b2-8792-e238397589ce",
+              "name": "Authentication failed or API key lacks permission",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "notifications",
+                    "sms"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"phone_number\": \"+447900900123\",\n  \"template_id\": \"f33517ff-2a88-4f6e-b855-c550268ce08a\",\n  \"personalisation\": {\n    \"name\": \"Jane\"\n  },\n  \"reference\": \"unique-ref-001\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status_code\": 403,\n  \"errors\": [\n    {\n      \"error\": \"AuthError\",\n      \"message\": \"Invalid token: API key not found\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2b4e5959-9e96-46ae-aa26-7542128fd937",
+              "name": "Rate limit exceeded (3,000 messages per minute per API key)",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "notifications",
+                    "sms"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"phone_number\": \"+447900900123\",\n  \"template_id\": \"f33517ff-2a88-4f6e-b855-c550268ce08a\",\n  \"personalisation\": {\n    \"name\": \"Jane\"\n  },\n  \"reference\": \"unique-ref-001\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status_code\": 429,\n  \"errors\": [\n    {\n      \"error\": \"TooManyRequestsError\",\n      \"message\": \"Exceeded send limits (3000) for today\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "127f73ae-44cb-4a79-a840-de4759fd7d92",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "notifications",
+                    "sms"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"phone_number\": \"+447900900123\",\n  \"template_id\": \"f33517ff-2a88-4f6e-b855-c550268ce08a\",\n  \"personalisation\": {\n    \"name\": \"Jane\"\n  },\n  \"reference\": \"unique-ref-001\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status_code\": 500,\n  \"errors\": [\n    {\n      \"error\": \"Exception\",\n      \"message\": \"Internal server error\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "9ceb41d5-5abb-4051-955a-8ed284756435",
+          "name": "Send an email notification",
+          "request": {
+            "name": "Send an email notification",
+            "description": {
+              "content": "Send an email notification to a recipient using a pre-defined template. Can also be used to send a file by email by including a link_to_file object in the personalisation field.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v2",
+                "notifications",
+                "email"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email_address\": \"<email>\",\n  \"template_id\": \"<uuid>\",\n  \"personalisation\": {\n    \"key_0\": 6913.65198023297,\n    \"key_1\": 4877.939100984684,\n    \"key_2\": 5724.74806829503,\n    \"key_3\": false\n  },\n  \"reference\": \"<string>\",\n  \"one_click_unsubscribe_url\": \"<uri>\",\n  \"email_reply_to_id\": \"<uuid>\",\n  \"sanitise_content_for\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "3ab5186f-7496-4226-81e8-eb5001215133",
+              "name": "Email notification created successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "notifications",
+                    "email"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"email_address\": \"citizen@example.com\",\n  \"template_id\": \"f33517ff-2a88-4f6e-b855-c550268ce08a\",\n  \"personalisation\": {\n    \"name\": \"Jane\"\n  },\n  \"reference\": \"unique-ref-002\",\n  \"one_click_unsubscribe_url\": \"https://example.com/unsubscribe\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"d7b837b3-dd33-f74e-4b07-fc51eced2ff6\",\n  \"reference\": \"string\",\n  \"content\": {\n    \"body\": \"string\",\n    \"subject\": \"string\",\n    \"from_number\": \"string\"\n  },\n  \"uri\": \"https://NQeJgwBBclFSTTOCLuRrsqcgrfi.wrEOR.hp+yjiKQKSkqCdf-\",\n  \"template\": {\n    \"id\": \"d9cfd67c-b524-30b5-8941-c2de3b09a0ba\",\n    \"version\": 2587,\n    \"uri\": \"http://BWGJMVkNZrCVDBBKGonhgbdWIQheee.tlMq2++hgQUjPsMfMqgIViN.6Enbj7OHozD2hZ,b6UftLnsEST\"\n  },\n  \"scheduled_for\": \"1966-05-03T02:54:53.314Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e7f4174f-8a76-413a-8da2-1967ecd64110",
+              "name": "Validation error in request body or parameters",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "notifications",
+                    "email"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"email_address\": \"citizen@example.com\",\n  \"template_id\": \"f33517ff-2a88-4f6e-b855-c550268ce08a\",\n  \"personalisation\": {\n    \"name\": \"Jane\"\n  },\n  \"reference\": \"unique-ref-002\",\n  \"one_click_unsubscribe_url\": \"https://example.com/unsubscribe\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status_code\": 400,\n  \"errors\": [\n    {\n      \"error\": \"ValidationError\",\n      \"message\": \"phone_number is not a valid phone number\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "08e41e5c-37e1-4400-8918-25229c1519bc",
+              "name": "Authentication failed or API key lacks permission",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "notifications",
+                    "email"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"email_address\": \"citizen@example.com\",\n  \"template_id\": \"f33517ff-2a88-4f6e-b855-c550268ce08a\",\n  \"personalisation\": {\n    \"name\": \"Jane\"\n  },\n  \"reference\": \"unique-ref-002\",\n  \"one_click_unsubscribe_url\": \"https://example.com/unsubscribe\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status_code\": 403,\n  \"errors\": [\n    {\n      \"error\": \"AuthError\",\n      \"message\": \"Invalid token: API key not found\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "dce4ae3d-693e-4a6f-aafc-b0a25917bc5b",
+              "name": "Rate limit exceeded (3,000 messages per minute per API key)",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "notifications",
+                    "email"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"email_address\": \"citizen@example.com\",\n  \"template_id\": \"f33517ff-2a88-4f6e-b855-c550268ce08a\",\n  \"personalisation\": {\n    \"name\": \"Jane\"\n  },\n  \"reference\": \"unique-ref-002\",\n  \"one_click_unsubscribe_url\": \"https://example.com/unsubscribe\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status_code\": 429,\n  \"errors\": [\n    {\n      \"error\": \"TooManyRequestsError\",\n      \"message\": \"Exceeded send limits (3000) for today\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "639058f6-1eab-4ba3-aafd-f3b2cf01d5f3",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "notifications",
+                    "email"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"email_address\": \"citizen@example.com\",\n  \"template_id\": \"f33517ff-2a88-4f6e-b855-c550268ce08a\",\n  \"personalisation\": {\n    \"name\": \"Jane\"\n  },\n  \"reference\": \"unique-ref-002\",\n  \"one_click_unsubscribe_url\": \"https://example.com/unsubscribe\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status_code\": 500,\n  \"errors\": [\n    {\n      \"error\": \"Exception\",\n      \"message\": \"Internal server error\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "67b9620c-43a3-40d3-b611-bb9a7e183318",
+          "name": "Send a letter notification",
+          "request": {
+            "name": "Send a letter notification",
+            "description": {
+              "content": "Send a letter notification to a recipient using a pre-defined template, or send a precompiled letter as a base64-encoded PDF.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v2",
+                "notifications",
+                "letter"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"template_id\": \"<uuid>\",\n  \"personalisation\": {\n    \"key_0\": \"<string>\",\n    \"key_1\": \"<string>\"\n  },\n  \"reference\": \"<string>\",\n  \"content\": \"<byte>\",\n  \"postage\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "4f0f9fed-4def-4793-aa6f-9f3af6161c28",
+              "name": "Letter notification created successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "notifications",
+                    "letter"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"template_id\": \"f33517ff-2a88-4f6e-b855-c550268ce08a\",\n  \"personalisation\": {\n    \"address_line_1\": \"The Occupier\",\n    \"address_line_2\": \"123 High Street\",\n    \"address_line_3\": \"London\",\n    \"postcode\": \"SW14 6BF\",\n    \"name\": \"Jane\"\n  },\n  \"reference\": \"unique-ref-003\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"d7b837b3-dd33-f74e-4b07-fc51eced2ff6\",\n  \"reference\": \"string\",\n  \"content\": {\n    \"body\": \"string\",\n    \"subject\": \"string\",\n    \"from_number\": \"string\"\n  },\n  \"uri\": \"https://NQeJgwBBclFSTTOCLuRrsqcgrfi.wrEOR.hp+yjiKQKSkqCdf-\",\n  \"template\": {\n    \"id\": \"d9cfd67c-b524-30b5-8941-c2de3b09a0ba\",\n    \"version\": 2587,\n    \"uri\": \"http://BWGJMVkNZrCVDBBKGonhgbdWIQheee.tlMq2++hgQUjPsMfMqgIViN.6Enbj7OHozD2hZ,b6UftLnsEST\"\n  },\n  \"scheduled_for\": \"1966-05-03T02:54:53.314Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a3951729-1487-4cbe-bf41-38dd27f710c8",
+              "name": "Validation error in request body or parameters",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "notifications",
+                    "letter"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"template_id\": \"f33517ff-2a88-4f6e-b855-c550268ce08a\",\n  \"personalisation\": {\n    \"address_line_1\": \"The Occupier\",\n    \"address_line_2\": \"123 High Street\",\n    \"address_line_3\": \"London\",\n    \"postcode\": \"SW14 6BF\",\n    \"name\": \"Jane\"\n  },\n  \"reference\": \"unique-ref-003\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status_code\": 400,\n  \"errors\": [\n    {\n      \"error\": \"ValidationError\",\n      \"message\": \"phone_number is not a valid phone number\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c1b48a39-09e8-4d9e-bda9-bcfc2766637d",
+              "name": "Authentication failed or API key lacks permission",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "notifications",
+                    "letter"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"template_id\": \"f33517ff-2a88-4f6e-b855-c550268ce08a\",\n  \"personalisation\": {\n    \"address_line_1\": \"The Occupier\",\n    \"address_line_2\": \"123 High Street\",\n    \"address_line_3\": \"London\",\n    \"postcode\": \"SW14 6BF\",\n    \"name\": \"Jane\"\n  },\n  \"reference\": \"unique-ref-003\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status_code\": 403,\n  \"errors\": [\n    {\n      \"error\": \"AuthError\",\n      \"message\": \"Invalid token: API key not found\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a249d5c2-6038-4c39-aa6c-ac2a9b8234d4",
+              "name": "Rate limit exceeded (3,000 messages per minute per API key)",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "notifications",
+                    "letter"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"template_id\": \"f33517ff-2a88-4f6e-b855-c550268ce08a\",\n  \"personalisation\": {\n    \"address_line_1\": \"The Occupier\",\n    \"address_line_2\": \"123 High Street\",\n    \"address_line_3\": \"London\",\n    \"postcode\": \"SW14 6BF\",\n    \"name\": \"Jane\"\n  },\n  \"reference\": \"unique-ref-003\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status_code\": 429,\n  \"errors\": [\n    {\n      \"error\": \"TooManyRequestsError\",\n      \"message\": \"Exceeded send limits (3000) for today\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "39bbb18e-6db6-4078-a4eb-439e554bca74",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "notifications",
+                    "letter"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"template_id\": \"f33517ff-2a88-4f6e-b855-c550268ce08a\",\n  \"personalisation\": {\n    \"address_line_1\": \"The Occupier\",\n    \"address_line_2\": \"123 High Street\",\n    \"address_line_3\": \"London\",\n    \"postcode\": \"SW14 6BF\",\n    \"name\": \"Jane\"\n  },\n  \"reference\": \"unique-ref-003\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status_code\": 500,\n  \"errors\": [\n    {\n      \"error\": \"Exception\",\n      \"message\": \"Internal server error\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d498db6c-7912-42bc-8cc6-61c045ad74bb",
+          "name": "Get notification by ID",
+          "request": {
+            "name": "Get notification by ID",
+            "description": {
+              "content": "Retrieve the status and details of a single notification by its UUID.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v2",
+                "notifications",
+                ":notification_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "notification_id",
+                  "description": "(Required) UUID of the notification"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c4d052bb-4187-42da-946b-089f79685e89",
+              "name": "Notification details",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "notifications",
+                    ":notification_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "notification_id",
+                      "description": "(Required) UUID of the notification"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"a11e510e-e3a0-3ad1-f504-9f7ce3d564da\",\n  \"reference\": \"string\",\n  \"email_address\": \"w7Hfjxyss4v7V@bzTdchEThva.mldi\",\n  \"phone_number\": \"string\",\n  \"line_1\": \"string\",\n  \"line_2\": \"string\",\n  \"line_3\": \"string\",\n  \"line_4\": \"string\",\n  \"line_5\": \"string\",\n  \"line_6\": \"string\",\n  \"postcode\": \"string\",\n  \"type\": \"letter\",\n  \"status\": \"string\",\n  \"template\": {\n    \"id\": \"16bd2e53-370b-f2d1-ceb2-cc72733d4651\",\n    \"version\": 8395,\n    \"uri\": \"https://ZmkXacCr.gpegjdbQeIm,efK\"\n  },\n  \"body\": \"string\",\n  \"subject\": \"string\",\n  \"created_at\": \"1987-06-10T02:39:16.586Z\",\n  \"sent_at\": \"1998-12-03T18:30:24.856Z\",\n  \"completed_at\": \"1971-04-19T07:42:42.677Z\",\n  \"estimated_delivery\": \"1992-03-30T02:19:18.971Z\",\n  \"cost_in_pounds\": 6637.552568743543,\n  \"cost_details\": {},\n  \"postage\": \"string\",\n  \"created_by_name\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ad2a025e-c457-4298-9930-7160aa49c681",
+              "name": "Authentication failed or API key lacks permission",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "notifications",
+                    ":notification_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "notification_id",
+                      "description": "(Required) UUID of the notification"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status_code\": 403,\n  \"errors\": [\n    {\n      \"error\": \"AuthError\",\n      \"message\": \"Invalid token: API key not found\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7c179d74-b813-4c47-abd9-0b9945a02c50",
+              "name": "Requested resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "notifications",
+                    ":notification_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "notification_id",
+                      "description": "(Required) UUID of the notification"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status_code\": 404,\n  \"errors\": [\n    {\n      \"error\": \"NoResultFound\",\n      \"message\": \"No result found\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d4dcd922-767f-4734-a2fc-6dc5f29c47b6",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "notifications",
+                    ":notification_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "notification_id",
+                      "description": "(Required) UUID of the notification"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status_code\": 500,\n  \"errors\": [\n    {\n      \"error\": \"Exception\",\n      \"message\": \"Internal server error\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5dc0e07f-fe43-4e15-8143-91704c020211",
+          "name": "Get letter PDF",
+          "request": {
+            "name": "Get letter PDF",
+            "description": {
+              "content": "Download the PDF file for a letter notification.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v2",
+                "notifications",
+                ":notification_id",
+                "pdf"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "notification_id",
+                  "description": "(Required) UUID of the letter notification"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/pdf"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "610d8f74-67b5-4eb3-9357-117fda220125",
+              "name": "PDF binary content",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "notifications",
+                    ":notification_id",
+                    "pdf"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "notification_id",
+                      "description": "(Required) UUID of the letter notification"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/pdf"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/pdf"
+                }
+              ],
+              "body": "string",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "42d5ec9a-92f2-4fe0-b37d-e1a778716808",
+              "name": "Authentication failed or API key lacks permission",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "notifications",
+                    ":notification_id",
+                    "pdf"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "notification_id",
+                      "description": "(Required) UUID of the letter notification"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status_code\": 403,\n  \"errors\": [\n    {\n      \"error\": \"AuthError\",\n      \"message\": \"Invalid token: API key not found\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fcaf2a93-4c36-4d98-b224-700264fe026f",
+              "name": "Requested resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "notifications",
+                    ":notification_id",
+                    "pdf"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "notification_id",
+                      "description": "(Required) UUID of the letter notification"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status_code\": 404,\n  \"errors\": [\n    {\n      \"error\": \"NoResultFound\",\n      \"message\": \"No result found\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "da768d91-3f04-4596-821e-5ef48901ae25",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "notifications",
+                    ":notification_id",
+                    "pdf"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "notification_id",
+                      "description": "(Required) UUID of the letter notification"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status_code\": 500,\n  \"errors\": [\n    {\n      \"error\": \"Exception\",\n      \"message\": \"Internal server error\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "17a1e5b5-f744-41f7-bece-7b49bf6e9ba0",
+          "name": "List notifications",
+          "request": {
+            "name": "List notifications",
+            "description": {
+              "content": "Retrieve a list of notifications sent by the service, optionally filtered by type, status, or reference. Returns up to 250 notifications per request with pagination.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v2",
+                "notifications"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "template_type",
+                  "value": "<string>",
+                  "description": "Filter by notification type"
+                },
+                {
+                  "disabled": false,
+                  "key": "status",
+                  "value": "<string>",
+                  "description": "Filter by notification status"
+                },
+                {
+                  "disabled": false,
+                  "key": "reference",
+                  "value": "<string>",
+                  "description": "Filter by client reference string"
+                },
+                {
+                  "disabled": false,
+                  "key": "older_than",
+                  "value": "<uuid>",
+                  "description": "UUID of a notification; returns notifications older than this ID (pagination)"
+                },
+                {
+                  "disabled": false,
+                  "key": "include_jobs",
+                  "value": "<boolean>",
+                  "description": "Include notifications from CSV batch uploads"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "788de84b-8d9a-41c3-a702-fe4887a57379",
+              "name": "List of notifications",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "notifications"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "template_type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "status",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "reference",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "older_than",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "include_jobs",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"notifications\": [\n    {\n      \"id\": \"2d106934-0a55-f2bf-df60-6df5b33cd251\",\n      \"reference\": \"string\",\n      \"email_address\": \"kBDCPQ7EGmgNT@xEIqujZVJpg.quvb\",\n      \"phone_number\": \"string\",\n      \"line_1\": \"string\",\n      \"line_2\": \"string\",\n      \"line_3\": \"string\",\n      \"line_4\": \"string\",\n      \"line_5\": \"string\",\n      \"line_6\": \"string\",\n      \"postcode\": \"string\",\n      \"type\": \"email\",\n      \"status\": \"string\",\n      \"template\": {\n        \"id\": \"b84f1845-bbb6-f70b-88a1-23e8065dae32\",\n        \"version\": 7884,\n        \"uri\": \"https://IpjqpLGuiZ.pbfjeLIvbaHkhe6bytYlffRunZCM6VczRQaUc.RTaP\"\n      },\n      \"body\": \"string\",\n      \"subject\": \"string\",\n      \"created_at\": \"2011-05-27T01:40:02.888Z\",\n      \"sent_at\": \"2025-04-07T17:50:29.731Z\",\n      \"completed_at\": \"1977-05-18T04:40:55.437Z\",\n      \"estimated_delivery\": \"1959-01-14T02:31:11.419Z\",\n      \"cost_in_pounds\": 8944.174386587287,\n      \"cost_details\": {},\n      \"postage\": \"string\",\n      \"created_by_name\": \"string\"\n    },\n    {\n      \"id\": \"d3fb3977-d434-382b-378d-9d679f6f5ad2\",\n      \"reference\": \"string\",\n      \"email_address\": \"2nmlSpIRnJhLR@IBhXRsOnClLudaeKXTSqRiaiFSfEcm.fqak\",\n      \"phone_number\": \"string\",\n      \"line_1\": \"string\",\n      \"line_2\": \"string\",\n      \"line_3\": \"string\",\n      \"line_4\": \"string\",\n      \"line_5\": \"string\",\n      \"line_6\": \"string\",\n      \"postcode\": \"string\",\n      \"type\": \"email\",\n      \"status\": \"string\",\n      \"template\": {\n        \"id\": \"d6e1f852-a549-059e-5854-d267fb50ac32\",\n        \"version\": 6209,\n        \"uri\": \"http://qZZDjtHOV.hvmoS9nKcHfcHeS-r4VPZQVQZH+9+eVqFWJwz-,QbuF8Q9eL,31Cb,hyL-0QpDgCmT\"\n      },\n      \"body\": \"string\",\n      \"subject\": \"string\",\n      \"created_at\": \"2019-02-11T14:29:48.343Z\",\n      \"sent_at\": \"1991-03-10T20:03:47.457Z\",\n      \"completed_at\": \"1968-04-10T22:56:17.604Z\",\n      \"estimated_delivery\": \"1957-10-20T01:39:24.904Z\",\n      \"cost_in_pounds\": 2672.3760513418338,\n      \"cost_details\": {},\n      \"postage\": \"string\",\n      \"created_by_name\": \"string\"\n    }\n  ],\n  \"links\": {\n    \"current\": \"https://KdAPbdJFacuSVEYEMkFJKDbS.tfitZ61fWrZRtDM8Kgb8Tw1sWagv8N\",\n    \"next\": \"http://AMZLeclWyAOAE.jumES\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "be942af0-ff24-4841-b4e2-d784c0e2c5d0",
+              "name": "Authentication failed or API key lacks permission",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "notifications"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "template_type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "status",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "reference",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "older_than",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "include_jobs",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status_code\": 403,\n  \"errors\": [\n    {\n      \"error\": \"AuthError\",\n      \"message\": \"Invalid token: API key not found\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "67683c87-f620-4cf7-8ad2-39f0cd5168c3",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "notifications"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "template_type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "status",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "reference",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "older_than",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "include_jobs",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status_code\": 500,\n  \"errors\": [\n    {\n      \"error\": \"Exception\",\n      \"message\": \"Internal server error\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.notifications.service.gov.uk",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "905a3c37-22b3-4052-a66a-5cad7641bd84",
+    "name": "GOV.UK Notify Notifications API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "GOV.UK Notify is a UK government notification service operated by the Government Digital Service (GDS) that enables central government, local authorities, NHS organisations, and other eligible public bodies to send emails, text messages, and letters to citizens on behalf of government services. The API uses JWT-based authentication and supports template-driven personalisation.",
+      "type": "text/plain"
+    }
+  }
+}
