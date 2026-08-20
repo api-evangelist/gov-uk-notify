@@ -27,6 +27,17 @@ accessModel:
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/gov-uk-notify.png
 url: https://raw.githubusercontent.com/api-evangelist/gov-uk-notify/refs/heads/main/apis.yml
 tags:
+  - Notification
+  - Email
+  - SMS
+  - Text Messages
+  - Letters
+  - Government
+  - United Kingdom
+  - Public Sector
+  - GDS
+  - REST
+tags_raw:
   - Notifications
   - Email
   - SMS
@@ -54,6 +65,11 @@ apis:
   - Python
   - SDK
   - Client Library
+  - Notification
+  tags_raw:
+  - Python
+  - SDK
+  - Client Library
   - Notifications
   properties:
   - type: Documentation
@@ -71,6 +87,11 @@ apis:
   - Java
   - SDK
   - Client Library
+  - Notification
+  tags_raw:
+  - Java
+  - SDK
+  - Client Library
   - Notifications
   properties:
   - type: Documentation
@@ -85,6 +106,12 @@ apis:
   humanURL: https://docs.notifications.service.gov.uk/net.html
   baseURL: https://api.notifications.service.gov.uk
   tags:
+  - .NET
+  - C#
+  - SDK
+  - Client Library
+  - Notification
+  tags_raw:
   - .NET
   - C#
   - SDK
@@ -107,6 +134,12 @@ apis:
   - JavaScript
   - SDK
   - Client Library
+  - Notification
+  tags_raw:
+  - Node.js
+  - JavaScript
+  - SDK
+  - Client Library
   - Notifications
   properties:
   - type: Documentation
@@ -121,6 +154,11 @@ apis:
   humanURL: https://docs.notifications.service.gov.uk/php.html
   baseURL: https://api.notifications.service.gov.uk
   tags:
+  - PHP
+  - SDK
+  - Client Library
+  - Notification
+  tags_raw:
   - PHP
   - SDK
   - Client Library
@@ -141,6 +179,11 @@ apis:
   - Ruby
   - SDK
   - Client Library
+  - Notification
+  tags_raw:
+  - Ruby
+  - SDK
+  - Client Library
   - Notifications
   properties:
   - type: Documentation
@@ -153,6 +196,8 @@ apis:
   humanURL: https://docs.notifications.service.gov.uk/rest-api.html
   baseURL: https://api.notifications.service.gov.uk
   tags:
+  - Notification
+  tags_raw:
   - Notifications
   properties:
   - type: OpenAPI
