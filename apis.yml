@@ -11,6 +11,18 @@ description: >-
   supports template-driven personalisation, and enforces a throughput limit of 3,000 messages per
   minute per API key type.
 kind: government
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: free
   onboarding: self-serve
