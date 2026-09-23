@@ -1,4 +1,4 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
   title: GOV.UK Notify Notifications API
   description: GOV.UK Notify is a UK government notification service operated by the Government Digital Service (GDS) that enables central government, local authorities, NHS organisations, and other eligible public bodies to send emails, text messages, and letters to citizens on behalf of government services. The API uses JWT-based authentication and supports template-driven personalisation.
@@ -246,6 +246,49 @@ paths:
           $ref: '#/components/responses/ServerError'
 components:
   schemas:
+    NotificationList:
+      type: object
+      properties:
+        notifications:
+          type: array
+          items:
+            $ref: '#/components/schemas/Notification'
+        links:
+          type: object
+          properties:
+            current:
+              type: string
+              format: uri
+            next:
+              type: string
+              format: uri
+              description: URL to retrieve the next page of results
+    SendSmsRequest:
+      type: object
+      required:
+      - phone_number
+      - template_id
+      properties:
+        phone_number:
+          type: string
+          description: UK mobile phone number of the recipient (E.164 format recommended)
+          example: '+447900900123'
+        template_id:
+          type: string
+          format: uuid
+          description: UUID of the SMS template to use
+        personalisation:
+          type: object
+          additionalProperties:
+            type: string
+          description: Key-value pairs to fill template placeholders
+        reference:
+          type: string
+          description: Client-supplied unique reference for this notification
+        sms_sender_id:
+          type: string
+          format: uuid
+          description: UUID of the SMS sender to use (overrides service default)
     TemplateRef:
       type: object
       properties:
@@ -257,22 +300,66 @@ components:
         uri:
           type: string
           format: uri
-    ErrorResponse:
+    SendLetterRequest:
       type: object
       properties:
-        status_code:
-          type: integer
-        errors:
+        template_id:
+          type: string
+          format: uuid
+          description: UUID of the letter template (required for template-based letters)
+        personalisation:
+          type: object
+          additionalProperties:
+            type: string
+          description: Address lines and template placeholder values. address_line_1, address_line_2, and address_line_3 are required minimum address fields.
+        reference:
+          type: string
+          description: Client-supplied unique reference for this notification
+        content:
+          type: string
+          format: byte
+          description: Base64-encoded PDF content (for precompiled letters; mutually exclusive with template_id)
+        postage:
+          type: string
+          enum:
+          - first
+          - second
+          - economy
+          description: Postage class for precompiled letters
+    SendEmailRequest:
+      type: object
+      required:
+      - email_address
+      - template_id
+      properties:
+        email_address:
+          type: string
+          format: email
+          description: Email address of the recipient
+        template_id:
+          type: string
+          format: uuid
+          description: UUID of the email template to use
+        personalisation:
+          type: object
+          additionalProperties: true
+          description: Key-value pairs to fill template placeholders. Use a link_to_file object value to send a file by email.
+        reference:
+          type: string
+          description: Client-supplied unique reference for this notification
+        one_click_unsubscribe_url:
+          type: string
+          format: uri
+          description: HTTPS URL for one-click unsubscribe (recommended for bulk sends)
+        email_reply_to_id:
+          type: string
+          format: uuid
+          description: UUID of a reply-to email address configured on the service
+        sanitise_content_for:
           type: array
           items:
-            type: object
-            properties:
-              error:
-                type: string
-                description: Machine-readable error type
-              message:
-                type: string
-                description: Human-readable error description
+            type: string
+          description: Array of personalisation field names whose content should be sanitised
     NotificationResponse:
       type: object
       properties:
@@ -307,32 +394,6 @@ components:
           format: date-time
           nullable: true
           description: Scheduled send time (if applicable)
-    SendSmsRequest:
-      type: object
-      required:
-      - phone_number
-      - template_id
-      properties:
-        phone_number:
-          type: string
-          description: UK mobile phone number of the recipient (E.164 format recommended)
-          example: '+447900900123'
-        template_id:
-          type: string
-          format: uuid
-          description: UUID of the SMS template to use
-        personalisation:
-          type: object
-          additionalProperties:
-            type: string
-          description: Key-value pairs to fill template placeholders
-        reference:
-          type: string
-          description: Client-supplied unique reference for this notification
-        sms_sender_id:
-          type: string
-          format: uuid
-          description: UUID of the SMS sender to use (overrides service default)
     Notification:
       type: object
       properties:
@@ -421,84 +482,34 @@ components:
           type: string
           nullable: true
           description: Name of the user who sent the notification (if sent via UI)
-    SendEmailRequest:
+    ErrorResponse:
       type: object
-      required:
-      - email_address
-      - template_id
       properties:
-        email_address:
-          type: string
-          format: email
-          description: Email address of the recipient
-        template_id:
-          type: string
-          format: uuid
-          description: UUID of the email template to use
-        personalisation:
-          type: object
-          additionalProperties: true
-          description: Key-value pairs to fill template placeholders. Use a link_to_file object value to send a file by email.
-        reference:
-          type: string
-          description: Client-supplied unique reference for this notification
-        one_click_unsubscribe_url:
-          type: string
-          format: uri
-          description: HTTPS URL for one-click unsubscribe (recommended for bulk sends)
-        email_reply_to_id:
-          type: string
-          format: uuid
-          description: UUID of a reply-to email address configured on the service
-        sanitise_content_for:
+        status_code:
+          type: integer
+        errors:
           type: array
           items:
-            type: string
-          description: Array of personalisation field names whose content should be sanitised
-    SendLetterRequest:
-      type: object
-      properties:
-        template_id:
-          type: string
-          format: uuid
-          description: UUID of the letter template (required for template-based letters)
-        personalisation:
-          type: object
-          additionalProperties:
-            type: string
-          description: Address lines and template placeholder values. address_line_1, address_line_2, and address_line_3 are required minimum address fields.
-        reference:
-          type: string
-          description: Client-supplied unique reference for this notification
-        content:
-          type: string
-          format: byte
-          description: Base64-encoded PDF content (for precompiled letters; mutually exclusive with template_id)
-        postage:
-          type: string
-          enum:
-          - first
-          - second
-          - economy
-          description: Postage class for precompiled letters
-    NotificationList:
-      type: object
-      properties:
-        notifications:
-          type: array
-          items:
-            $ref: '#/components/schemas/Notification'
-        links:
-          type: object
-          properties:
-            current:
-              type: string
-              format: uri
-            next:
-              type: string
-              format: uri
-              description: URL to retrieve the next page of results
+            type: object
+            properties:
+              error:
+                type: string
+                description: Machine-readable error type
+              message:
+                type: string
+                description: Human-readable error description
   responses:
+    RateLimited:
+      description: Rate limit exceeded (3,000 messages per minute per API key)
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            status_code: 429
+            errors:
+            - error: TooManyRequestsError
+              message: Exceeded send limits (3000) for today
     Forbidden:
       description: Authentication failed or API key lacks permission
       content:
@@ -521,17 +532,6 @@ components:
             errors:
             - error: NoResultFound
               message: No result found
-    RateLimited:
-      description: Rate limit exceeded (3,000 messages per minute per API key)
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            status_code: 429
-            errors:
-            - error: TooManyRequestsError
-              message: Exceeded send limits (3000) for today
     BadRequest:
       description: Validation error in request body or parameters
       content:

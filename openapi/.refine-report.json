@@ -1,9 +1,7 @@
 {
   "provider": "gov-uk-notify",
   "sources": [
-    "gov-uk-notify-notifications-api-openapi.yml",
-    "gov-uk-notify-received-text-messages-api-openapi.yml",
-    "gov-uk-notify-templates-api-openapi.yml"
+    "_original/openapi.yml"
   ],
   "outputs": [
     "gov-uk-notify-notifications-api-openapi.yml",
@@ -13,6 +11,14 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "gov-uk-notify-notifications-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "gov-uk-notify-received-text-messages-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "gov-uk-notify-templates-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }
