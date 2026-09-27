@@ -246,49 +246,22 @@ paths:
           $ref: '#/components/responses/ServerError'
 components:
   schemas:
-    NotificationList:
+    ErrorResponse:
       type: object
       properties:
-        notifications:
+        status_code:
+          type: integer
+        errors:
           type: array
           items:
-            $ref: '#/components/schemas/Notification'
-        links:
-          type: object
-          properties:
-            current:
-              type: string
-              format: uri
-            next:
-              type: string
-              format: uri
-              description: URL to retrieve the next page of results
-    SendSmsRequest:
-      type: object
-      required:
-      - phone_number
-      - template_id
-      properties:
-        phone_number:
-          type: string
-          description: UK mobile phone number of the recipient (E.164 format recommended)
-          example: '+447900900123'
-        template_id:
-          type: string
-          format: uuid
-          description: UUID of the SMS template to use
-        personalisation:
-          type: object
-          additionalProperties:
-            type: string
-          description: Key-value pairs to fill template placeholders
-        reference:
-          type: string
-          description: Client-supplied unique reference for this notification
-        sms_sender_id:
-          type: string
-          format: uuid
-          description: UUID of the SMS sender to use (overrides service default)
+            type: object
+            properties:
+              error:
+                type: string
+                description: Machine-readable error type
+              message:
+                type: string
+                description: Human-readable error description
     TemplateRef:
       type: object
       properties:
@@ -300,32 +273,6 @@ components:
         uri:
           type: string
           format: uri
-    SendLetterRequest:
-      type: object
-      properties:
-        template_id:
-          type: string
-          format: uuid
-          description: UUID of the letter template (required for template-based letters)
-        personalisation:
-          type: object
-          additionalProperties:
-            type: string
-          description: Address lines and template placeholder values. address_line_1, address_line_2, and address_line_3 are required minimum address fields.
-        reference:
-          type: string
-          description: Client-supplied unique reference for this notification
-        content:
-          type: string
-          format: byte
-          description: Base64-encoded PDF content (for precompiled letters; mutually exclusive with template_id)
-        postage:
-          type: string
-          enum:
-          - first
-          - second
-          - economy
-          description: Postage class for precompiled letters
     SendEmailRequest:
       type: object
       required:
@@ -360,40 +307,32 @@ components:
           items:
             type: string
           description: Array of personalisation field names whose content should be sanitised
-    NotificationResponse:
+    SendSmsRequest:
       type: object
+      required:
+      - phone_number
+      - template_id
       properties:
-        id:
+        phone_number:
+          type: string
+          description: UK mobile phone number of the recipient (E.164 format recommended)
+          example: '+447900900123'
+        template_id:
           type: string
           format: uuid
-          description: UUID of the created notification
+          description: UUID of the SMS template to use
+        personalisation:
+          type: object
+          additionalProperties:
+            type: string
+          description: Key-value pairs to fill template placeholders
         reference:
           type: string
-          description: Client reference (if provided)
-        content:
-          type: object
-          description: Rendered notification content
-          properties:
-            body:
-              type: string
-              description: Rendered message body
-            subject:
-              type: string
-              description: Rendered email subject (email notifications only)
-            from_number:
-              type: string
-              description: SMS sender (SMS notifications only)
-        uri:
+          description: Client-supplied unique reference for this notification
+        sms_sender_id:
           type: string
-          format: uri
-          description: API URL to retrieve this notification
-        template:
-          $ref: '#/components/schemas/TemplateRef'
-        scheduled_for:
-          type: string
-          format: date-time
-          nullable: true
-          description: Scheduled send time (if applicable)
+          format: uuid
+          description: UUID of the SMS sender to use (overrides service default)
     Notification:
       type: object
       properties:
@@ -482,56 +421,84 @@ components:
           type: string
           nullable: true
           description: Name of the user who sent the notification (if sent via UI)
-    ErrorResponse:
+    NotificationList:
       type: object
       properties:
-        status_code:
-          type: integer
-        errors:
+        notifications:
           type: array
           items:
-            type: object
-            properties:
-              error:
-                type: string
-                description: Machine-readable error type
-              message:
-                type: string
-                description: Human-readable error description
+            $ref: '#/components/schemas/Notification'
+        links:
+          type: object
+          properties:
+            current:
+              type: string
+              format: uri
+            next:
+              type: string
+              format: uri
+              description: URL to retrieve the next page of results
+    NotificationResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: UUID of the created notification
+        reference:
+          type: string
+          description: Client reference (if provided)
+        content:
+          type: object
+          description: Rendered notification content
+          properties:
+            body:
+              type: string
+              description: Rendered message body
+            subject:
+              type: string
+              description: Rendered email subject (email notifications only)
+            from_number:
+              type: string
+              description: SMS sender (SMS notifications only)
+        uri:
+          type: string
+          format: uri
+          description: API URL to retrieve this notification
+        template:
+          $ref: '#/components/schemas/TemplateRef'
+        scheduled_for:
+          type: string
+          format: date-time
+          nullable: true
+          description: Scheduled send time (if applicable)
+    SendLetterRequest:
+      type: object
+      properties:
+        template_id:
+          type: string
+          format: uuid
+          description: UUID of the letter template (required for template-based letters)
+        personalisation:
+          type: object
+          additionalProperties:
+            type: string
+          description: Address lines and template placeholder values. address_line_1, address_line_2, and address_line_3 are required minimum address fields.
+        reference:
+          type: string
+          description: Client-supplied unique reference for this notification
+        content:
+          type: string
+          format: byte
+          description: Base64-encoded PDF content (for precompiled letters; mutually exclusive with template_id)
+        postage:
+          type: string
+          enum:
+          - first
+          - second
+          - economy
+          description: Postage class for precompiled letters
   responses:
-    RateLimited:
-      description: Rate limit exceeded (3,000 messages per minute per API key)
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            status_code: 429
-            errors:
-            - error: TooManyRequestsError
-              message: Exceeded send limits (3000) for today
-    Forbidden:
-      description: Authentication failed or API key lacks permission
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            status_code: 403
-            errors:
-            - error: AuthError
-              message: 'Invalid token: API key not found'
-    NotFound:
-      description: Requested resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            status_code: 404
-            errors:
-            - error: NoResultFound
-              message: No result found
     BadRequest:
       description: Validation error in request body or parameters
       content:
@@ -543,6 +510,39 @@ components:
             errors:
             - error: ValidationError
               message: phone_number is not a valid phone number
+    RateLimited:
+      description: Rate limit exceeded (3,000 messages per minute per API key)
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            status_code: 429
+            errors:
+            - error: TooManyRequestsError
+              message: Exceeded send limits (3000) for today
+    NotFound:
+      description: Requested resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            status_code: 404
+            errors:
+            - error: NoResultFound
+              message: No result found
+    Forbidden:
+      description: Authentication failed or API key lacks permission
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            status_code: 403
+            errors:
+            - error: AuthError
+              message: 'Invalid token: API key not found'
     ServerError:
       description: Internal server error
       content:
