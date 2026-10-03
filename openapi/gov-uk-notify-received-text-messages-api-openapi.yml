@@ -46,22 +46,6 @@ paths:
           $ref: '#/components/responses/ServerError'
 components:
   schemas:
-    ErrorResponse:
-      type: object
-      properties:
-        status_code:
-          type: integer
-        errors:
-          type: array
-          items:
-            type: object
-            properties:
-              error:
-                type: string
-                description: Machine-readable error type
-              message:
-                type: string
-                description: Human-readable error description
     ReceivedTextMessage:
       type: object
       properties:
@@ -83,6 +67,22 @@ components:
         created_at:
           type: string
           format: date-time
+    ErrorResponse:
+      type: object
+      properties:
+        status_code:
+          type: integer
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              error:
+                type: string
+                description: Machine-readable error type
+              message:
+                type: string
+                description: Human-readable error description
     ReceivedTextMessageList:
       type: object
       properties:
