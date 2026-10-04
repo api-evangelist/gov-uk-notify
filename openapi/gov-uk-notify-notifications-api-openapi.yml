@@ -245,105 +245,7 @@ paths:
         '500':
           $ref: '#/components/responses/ServerError'
 components:
-  responses:
-    BadRequest:
-      description: Validation error in request body or parameters
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            status_code: 400
-            errors:
-            - error: ValidationError
-              message: phone_number is not a valid phone number
-    Forbidden:
-      description: Authentication failed or API key lacks permission
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            status_code: 403
-            errors:
-            - error: AuthError
-              message: 'Invalid token: API key not found'
-    NotFound:
-      description: Requested resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            status_code: 404
-            errors:
-            - error: NoResultFound
-              message: No result found
-    RateLimited:
-      description: Rate limit exceeded (3,000 messages per minute per API key)
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            status_code: 429
-            errors:
-            - error: TooManyRequestsError
-              message: Exceeded send limits (3000) for today
-    ServerError:
-      description: Internal server error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            status_code: 500
-            errors:
-            - error: Exception
-              message: Internal server error
   schemas:
-    SendLetterRequest:
-      type: object
-      properties:
-        template_id:
-          type: string
-          format: uuid
-          description: UUID of the letter template (required for template-based letters)
-        personalisation:
-          type: object
-          additionalProperties:
-            type: string
-          description: Address lines and template placeholder values. address_line_1, address_line_2, and address_line_3 are required minimum address fields.
-        reference:
-          type: string
-          description: Client-supplied unique reference for this notification
-        content:
-          type: string
-          format: byte
-          description: Base64-encoded PDF content (for precompiled letters; mutually exclusive with template_id)
-        postage:
-          type: string
-          enum:
-          - first
-          - second
-          - economy
-          description: Postage class for precompiled letters
-    ErrorResponse:
-      type: object
-      properties:
-        status_code:
-          type: integer
-        errors:
-          type: array
-          items:
-            type: object
-            properties:
-              error:
-                type: string
-                description: Machine-readable error type
-              message:
-                type: string
-                description: Human-readable error description
     SendSmsRequest:
       type: object
       required:
@@ -370,6 +272,40 @@ components:
           type: string
           format: uuid
           description: UUID of the SMS sender to use (overrides service default)
+    SendEmailRequest:
+      type: object
+      required:
+      - email_address
+      - template_id
+      properties:
+        email_address:
+          type: string
+          format: email
+          description: Email address of the recipient
+        template_id:
+          type: string
+          format: uuid
+          description: UUID of the email template to use
+        personalisation:
+          type: object
+          additionalProperties: true
+          description: Key-value pairs to fill template placeholders. Use a link_to_file object value to send a file by email.
+        reference:
+          type: string
+          description: Client-supplied unique reference for this notification
+        one_click_unsubscribe_url:
+          type: string
+          format: uri
+          description: HTTPS URL for one-click unsubscribe (recommended for bulk sends)
+        email_reply_to_id:
+          type: string
+          format: uuid
+          description: UUID of a reply-to email address configured on the service
+        sanitise_content_for:
+          type: array
+          items:
+            type: string
+          description: Array of personalisation field names whose content should be sanitised
     TemplateRef:
       type: object
       properties:
@@ -398,40 +334,6 @@ components:
               type: string
               format: uri
               description: URL to retrieve the next page of results
-    NotificationResponse:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: UUID of the created notification
-        reference:
-          type: string
-          description: Client reference (if provided)
-        content:
-          type: object
-          description: Rendered notification content
-          properties:
-            body:
-              type: string
-              description: Rendered message body
-            subject:
-              type: string
-              description: Rendered email subject (email notifications only)
-            from_number:
-              type: string
-              description: SMS sender (SMS notifications only)
-        uri:
-          type: string
-          format: uri
-          description: API URL to retrieve this notification
-        template:
-          $ref: '#/components/schemas/TemplateRef'
-        scheduled_for:
-          type: string
-          format: date-time
-          nullable: true
-          description: Scheduled send time (if applicable)
     Notification:
       type: object
       properties:
@@ -520,40 +422,138 @@ components:
           type: string
           nullable: true
           description: Name of the user who sent the notification (if sent via UI)
-    SendEmailRequest:
+    SendLetterRequest:
       type: object
-      required:
-      - email_address
-      - template_id
       properties:
-        email_address:
-          type: string
-          format: email
-          description: Email address of the recipient
         template_id:
           type: string
           format: uuid
-          description: UUID of the email template to use
+          description: UUID of the letter template (required for template-based letters)
         personalisation:
           type: object
-          additionalProperties: true
-          description: Key-value pairs to fill template placeholders. Use a link_to_file object value to send a file by email.
+          additionalProperties:
+            type: string
+          description: Address lines and template placeholder values. address_line_1, address_line_2, and address_line_3 are required minimum address fields.
         reference:
           type: string
           description: Client-supplied unique reference for this notification
-        one_click_unsubscribe_url:
+        content:
           type: string
-          format: uri
-          description: HTTPS URL for one-click unsubscribe (recommended for bulk sends)
-        email_reply_to_id:
+          format: byte
+          description: Base64-encoded PDF content (for precompiled letters; mutually exclusive with template_id)
+        postage:
           type: string
-          format: uuid
-          description: UUID of a reply-to email address configured on the service
-        sanitise_content_for:
+          enum:
+          - first
+          - second
+          - economy
+          description: Postage class for precompiled letters
+    ErrorResponse:
+      type: object
+      properties:
+        status_code:
+          type: integer
+        errors:
           type: array
           items:
-            type: string
-          description: Array of personalisation field names whose content should be sanitised
+            type: object
+            properties:
+              error:
+                type: string
+                description: Machine-readable error type
+              message:
+                type: string
+                description: Human-readable error description
+    NotificationResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: UUID of the created notification
+        reference:
+          type: string
+          description: Client reference (if provided)
+        content:
+          type: object
+          description: Rendered notification content
+          properties:
+            body:
+              type: string
+              description: Rendered message body
+            subject:
+              type: string
+              description: Rendered email subject (email notifications only)
+            from_number:
+              type: string
+              description: SMS sender (SMS notifications only)
+        uri:
+          type: string
+          format: uri
+          description: API URL to retrieve this notification
+        template:
+          $ref: '#/components/schemas/TemplateRef'
+        scheduled_for:
+          type: string
+          format: date-time
+          nullable: true
+          description: Scheduled send time (if applicable)
+  responses:
+    Forbidden:
+      description: Authentication failed or API key lacks permission
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            status_code: 403
+            errors:
+            - error: AuthError
+              message: 'Invalid token: API key not found'
+    ServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            status_code: 500
+            errors:
+            - error: Exception
+              message: Internal server error
+    NotFound:
+      description: Requested resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            status_code: 404
+            errors:
+            - error: NoResultFound
+              message: No result found
+    RateLimited:
+      description: Rate limit exceeded (3,000 messages per minute per API key)
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            status_code: 429
+            errors:
+            - error: TooManyRequestsError
+              message: Exceeded send limits (3000) for today
+    BadRequest:
+      description: Validation error in request body or parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            status_code: 400
+            errors:
+            - error: ValidationError
+              message: phone_number is not a valid phone number
   securitySchemes:
     bearerAuth:
       type: http
