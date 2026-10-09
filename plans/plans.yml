@@ -1,3 +1,7 @@
+# Provenance stamped 2026-10-07 (roadmap#943): written by an API Evangelist sweep (undated — the file carries no date and git cannot supply one), not
+# harvested from the provider. `method: generated` so the economics campaign may replace it with a
+# dated, verbatim transcription; every figure below is unverified until it does.
+method: generated
 name: GOV.UK Notify Plans
 description: GOV.UK Notify pricing and service tiers for government organizations sending notifications via email, SMS, and letters.
 url: https://www.notifications.service.gov.uk/pricing
@@ -116,3 +120,67 @@ plans:
       - C5 envelope with address window included
       - Paper and postage included
       - Maximum 10 pages (5 double-sided sheets)
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - metered
+  units:
+  - message
+  plans:
+  - name: Email Free Tier
+    access: other
+    model: metered
+    model_how: derived
+    units:
+    - message
+    periods: []
+  - name: SMS - Central Government
+    access: other
+    model: metered
+    model_how: derived
+    units:
+    - message
+    periods: []
+  - name: SMS - Local Authorities
+    access: other
+    model: metered
+    model_how: derived
+    units:
+    - message
+    periods: []
+  - name: SMS - State-Funded Schools and Other Orgs
+    access: other
+    model: metered
+    model_how: derived
+    units:
+    - message
+    periods: []
+  - name: Letters - Economy
+    access: other
+    model: unstated
+    model_how: derived
+    units:
+    - other
+    periods: []
+  - name: Letters - Second Class
+    access: other
+    model: unstated
+    model_how: derived
+    units:
+    - other
+    periods: []
+  - name: Letters - First Class
+    access: other
+    model: unstated
+    model_how: derived
+    units:
+    - other
+    periods: []
+  - name: Letters - International
+    access: other
+    model: unstated
+    model_how: derived
+    units:
+    - other
+    periods: []

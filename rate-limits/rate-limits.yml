@@ -1,3 +1,7 @@
+# Provenance stamped 2026-10-07 (roadmap#943): written by an API Evangelist sweep (undated — the file carries no date and git cannot supply one), not
+# harvested from the provider. `method: generated` so the economics campaign may replace it with a
+# dated, verbatim transcription; every figure below is unverified until it does.
+method: generated
 name: GOV.UK Notify Rate Limits
 description: Rate limits and daily send quotas for the GOV.UK Notify API.
 url: https://docs.notifications.service.gov.uk/rest-api.html
