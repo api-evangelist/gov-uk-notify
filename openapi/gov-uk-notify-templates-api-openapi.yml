@@ -151,36 +151,52 @@ paths:
         '500':
           $ref: '#/components/responses/ServerError'
 components:
+  responses:
+    ServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            status_code: 500
+            errors:
+            - error: Exception
+              message: Internal server error
+    Forbidden:
+      description: Authentication failed or API key lacks permission
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            status_code: 403
+            errors:
+            - error: AuthError
+              message: 'Invalid token: API key not found'
+    NotFound:
+      description: Requested resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            status_code: 404
+            errors:
+            - error: NoResultFound
+              message: No result found
+    BadRequest:
+      description: Validation error in request body or parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            status_code: 400
+            errors:
+            - error: ValidationError
+              message: phone_number is not a valid phone number
   schemas:
-    TemplatePreview:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        type:
-          type: string
-          enum:
-          - email
-          - sms
-          - letter
-        version:
-          type: integer
-        body:
-          type: string
-          description: Rendered template body with personalisation applied
-        subject:
-          type: string
-          nullable: true
-          description: Rendered email subject (email templates only)
-        html:
-          type: string
-          nullable: true
-          description: HTML-rendered body (email templates only)
-        postage:
-          type: string
-          nullable: true
-          description: Postage class (letter templates only)
     TemplatePreviewRequest:
       type: object
       required:
@@ -191,6 +207,13 @@ components:
           additionalProperties:
             type: string
           description: Key-value pairs to substitute into template placeholders
+    TemplateList:
+      type: object
+      properties:
+        templates:
+          type: array
+          items:
+            $ref: '#/components/schemas/Template'
     Template:
       type: object
       properties:
@@ -240,13 +263,6 @@ components:
             properties:
               required:
                 type: boolean
-    TemplateList:
-      type: object
-      properties:
-        templates:
-          type: array
-          items:
-            $ref: '#/components/schemas/Template'
     ErrorResponse:
       type: object
       properties:
@@ -263,51 +279,35 @@ components:
               message:
                 type: string
                 description: Human-readable error description
-  responses:
-    Forbidden:
-      description: Authentication failed or API key lacks permission
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            status_code: 403
-            errors:
-            - error: AuthError
-              message: 'Invalid token: API key not found'
-    ServerError:
-      description: Internal server error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            status_code: 500
-            errors:
-            - error: Exception
-              message: Internal server error
-    BadRequest:
-      description: Validation error in request body or parameters
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            status_code: 400
-            errors:
-            - error: ValidationError
-              message: phone_number is not a valid phone number
-    NotFound:
-      description: Requested resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            status_code: 404
-            errors:
-            - error: NoResultFound
-              message: No result found
+    TemplatePreview:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        type:
+          type: string
+          enum:
+          - email
+          - sms
+          - letter
+        version:
+          type: integer
+        body:
+          type: string
+          description: Rendered template body with personalisation applied
+        subject:
+          type: string
+          nullable: true
+          description: Rendered email subject (email templates only)
+        html:
+          type: string
+          nullable: true
+          description: HTML-rendered body (email templates only)
+        postage:
+          type: string
+          nullable: true
+          description: Postage class (letter templates only)
   securitySchemes:
     bearerAuth:
       type: http

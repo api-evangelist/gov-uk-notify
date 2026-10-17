@@ -46,17 +46,6 @@ paths:
           $ref: '#/components/responses/ServerError'
 components:
   responses:
-    Forbidden:
-      description: Authentication failed or API key lacks permission
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            status_code: 403
-            errors:
-            - error: AuthError
-              message: 'Invalid token: API key not found'
     ServerError:
       description: Internal server error
       content:
@@ -68,24 +57,18 @@ components:
             errors:
             - error: Exception
               message: Internal server error
+    Forbidden:
+      description: Authentication failed or API key lacks permission
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            status_code: 403
+            errors:
+            - error: AuthError
+              message: 'Invalid token: API key not found'
   schemas:
-    ReceivedTextMessageList:
-      type: object
-      properties:
-        received_text_messages:
-          type: array
-          items:
-            $ref: '#/components/schemas/ReceivedTextMessage'
-        links:
-          type: object
-          properties:
-            current:
-              type: string
-              format: uri
-            next:
-              type: string
-              format: uri
-              description: URL to retrieve the next page of results
     ReceivedTextMessage:
       type: object
       properties:
@@ -123,6 +106,23 @@ components:
               message:
                 type: string
                 description: Human-readable error description
+    ReceivedTextMessageList:
+      type: object
+      properties:
+        received_text_messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReceivedTextMessage'
+        links:
+          type: object
+          properties:
+            current:
+              type: string
+              format: uri
+            next:
+              type: string
+              format: uri
+              description: URL to retrieve the next page of results
   securitySchemes:
     bearerAuth:
       type: http
