@@ -64,69 +64,151 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-GOV.UK Notify is a UK government notification service operated by the Government Digital Service (GDS) that enables central government, local authorities, NHS organisations, and other eligible public bodies to send emails, text messages, and letters to citizens on behalf of government services.
+GOV.UK Notify is a UK government notification service operated by the Government Digital Service (GDS) that enables central government, local authorities, NHS organisations, and other eligible public bodies to send emails, text messages, and letters to citizens on behalf of government services. The platform provides a REST API, a web-based sending interface, and official client libraries for Python, Java, .NET, Node.js, PHP, and Ruby. Emails are free and unlimited; SMS messages include an annual free allowance by organisation type with per-message overage at 2.4p; physical letters are priced by postage class and page count with print and postage included. The API uses JWT-based authentication, supports template-driven personalisation, and enforces a throughput limit of 3,000 messages per minute per API key type.
 
-## Overview
+**Areas:** Notification · Email · SMS · Text Messages · Letters · Government · United Kingdom · Public Sector · GDS · REST
 
-The platform currently serves 1,751 organisations across 12,296 services. It is designed so that non-technical users can create and manage notification templates through a web interface, while developers integrate sending and status-tracking programmatically via a REST API or official client libraries.
+## GOV.UK Notify on APIs.io
 
-## Channels
+Everything profiled for GOV.UK Notify is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/gov-uk-notify/](https://apis.io/providers/gov-uk-notify/)** — or go straight to one of the APIs or properties below.
 
-- **Email** - Free and unlimited for all eligible organisations
-- **SMS** - Annual free allowance by organisation type; 2.4p per message (plus VAT) above the allowance
-- **Letters** - Priced by postage class and page count; includes double-sided colour print, C5 envelope, and postage
+### APIs (9)
 
-## API
+- [GOV.UK Notify Python Client](https://apis.io/apis/gov-uk-notify/python-client/) — Official Python client library for the GOV.UK Notify API. Wraps the REST API with idiomatic Python methods for sending SMS, email, and letter notifications;…
+- [GOV.UK Notify Java Client](https://apis.io/apis/gov-uk-notify/java-client/) — Official Java client library for the GOV.UK Notify API, providing methods for sending emails, SMS messages, and letters, as well as retrieving notification…
+- [GOV.UK Notify .NET Client](https://apis.io/apis/gov-uk-notify/dotnet-client/) — Official .NET client library for the GOV.UK Notify API supporting C# and other .NET languages for sending government notifications via email, SMS, and letters.
+- [GOV.UK Notify Node.js Client](https://apis.io/apis/gov-uk-notify/nodejs-client/) — Official Node.js client library for the GOV.UK Notify API for sending government notifications via email, SMS, and letters from JavaScript and TypeScript…
+- [GOV.UK Notify PHP Client](https://apis.io/apis/gov-uk-notify/php-client/) — Official PHP client library for the GOV.UK Notify API for sending government notifications via email, SMS, and letters from PHP applications.
+- [GOV.UK Notify Ruby Client](https://apis.io/apis/gov-uk-notify/ruby-client/) — Official Ruby client library for the GOV.UK Notify API for sending government notifications via email, SMS, and letters from Ruby and Ruby on Rails…
+- [GOV.UK Notify Notifications API](https://apis.io/apis/gov-uk-notify/gov-uk-notify-notifications-api/) — Send and retrieve notifications (email, SMS, letters)
+- [GOV.UK Notify Received Text Messages API](https://apis.io/apis/gov-uk-notify/gov-uk-notify-received-text-messages-api/) — Retrieve inbound text messages
+- [GOV.UK Notify Templates API](https://apis.io/apis/gov-uk-notify/gov-uk-notify-templates-api/) — Retrieve and preview notification templates
 
-The GOV.UK Notify REST API base URL is `https://api.notifications.service.gov.uk`. Authentication uses JSON Web Tokens (JWT) issued from API keys obtained in the GOV.UK Notify service dashboard. Tokens expire within 30 seconds.
+### Published properties
 
-### Core Endpoints
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-| Method | Path | Purpose |
-|--------|------|---------|
-| POST | /v2/notifications/email | Send an email |
-| POST | /v2/notifications/sms | Send a text message |
-| POST | /v2/notifications/letter | Send a letter |
-| GET | /v2/notifications/{id} | Get notification status |
-| GET | /v2/notifications | List notifications (up to 250 per page) |
-| GET | /v2/notifications/{id}/pdf | Get letter PDF |
-| GET | /v2/template/{id} | Get a template |
-| GET | /v2/templates | List all templates |
-| POST | /v2/template/{id}/preview | Preview a template |
-| GET | /v2/received-text-messages | List received SMS |
+#### Agentic access (1)
 
-### Rate Limits
+Which operations an agent can call, which act, and which need a human in the loop.
 
-- 3,000 messages per minute per API key type
-- 250,000 emails per day
-- 250,000 SMS per day
-- 20,000 letters per day
+- [Gov Uk Notify Agentic Access](https://apis.io/agentic-access/gov-uk-notify/gov-uk-notify-agentic-access/)
 
-## Client Libraries
+#### JSON Schema (3)
 
-Official clients are available for Python, Java, .NET, Node.js, PHP, and Ruby. All are maintained by the Government Digital Service under the alphagov GitHub organisation.
+The data models the API reads and writes.
 
-## Pricing
+- [Notification](https://apis.io/schemas/gov-uk-notify/notification/)
+- [Send Email Request](https://apis.io/schemas/gov-uk-notify/send-email-request/)
+- [Send SMS Request](https://apis.io/schemas/gov-uk-notify/send-sms-request/)
 
-| Channel | Cost |
-|---------|------|
-| Email | Free (unlimited) |
-| SMS (central gov) | 20,000 free/year; 2.4p each above |
-| SMS (local authority) | 10,000 free/year; 2.4p each above |
-| SMS (schools/other) | 5,000 free/year; 2.4p each above |
-| Letter (economy, 1 sheet) | 64p |
-| Letter (2nd class, 1 sheet) | 73p |
-| Letter (1st class, 1 sheet) | £1.56 |
-| Letter (international, 1 sheet) | £1.80 |
+#### Examples (3)
 
-All prices exclude VAT. No monthly fees, no setup costs, no procurement requirements.
+Example requests and responses.
 
-## Links
+- [Send Email](https://apis.io/examples/gov-uk-notify/send-email/)
+- [Send Letter](https://apis.io/examples/gov-uk-notify/send-letter/)
+- [Send Sms](https://apis.io/examples/gov-uk-notify/send-sms/)
 
-- Website: https://www.notifications.service.gov.uk/
-- Documentation: https://docs.notifications.service.gov.uk/
-- Pricing: https://www.notifications.service.gov.uk/pricing
-- Status: https://status.notifications.service.gov.uk/
-- Support: https://www.notifications.service.gov.uk/support
-- Blog: https://gds.blog.gov.uk/category/gov-uk-notify/
-- GitHub (API): https://github.com/alphagov/notifications-api
+#### Collections (3)
+
+Postman and Open Collection request collections.
+
+- [GOV.UK Notify Notifications API](https://apis.io/collections/gov-uk-notify/open-gov-uk-notify-notifications-api/)
+- [GOV.UK Notify Notifications Received Text Messages API](https://apis.io/collections/gov-uk-notify/open-gov-uk-notify-received-text-messages-api/)
+- [GOV.UK Notify Notifications Templates API](https://apis.io/collections/gov-uk-notify/open-gov-uk-notify-templates-api/)
+
+#### Governance rules (1)
+
+Spectral rulesets for the provider's contracts.
+
+- [GOV.UK Notify — jsonschema rules](https://apis.io/rules/gov-uk-notify/gov-uk-notify-jsonschema-spectral-rules/)
+
+#### Security (3)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Gov Uk Notify Authentication](https://apis.io/security/gov-uk-notify/gov-uk-notify-authentication/)
+- [Gov Uk Notify Domain Security](https://apis.io/security/gov-uk-notify/gov-uk-notify-domain-security/)
+- [Gov Uk Notify Vulnerability Disclosure](https://apis.io/security/gov-uk-notify/gov-uk-notify-vulnerability-disclosure/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Plans](https://apis.io/plans/gov-uk-notify/plans/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Rate Limits](https://apis.io/rate-limits/gov-uk-notify/rate-limits/)
+
+#### FinOps (1)
+
+What the API costs to run, by operation.
+
+- [Finops](https://apis.io/finops/gov-uk-notify/finops/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://www.notifications.service.gov.uk/)
+- [Documentation](https://docs.notifications.service.gov.uk/)
+- [Pricing](https://www.notifications.service.gov.uk/pricing)
+- [Support](https://www.notifications.service.gov.uk/support)
+- [Blog](https://gds.blog.gov.uk/category/gov-uk-notify/)
+
+## API Evangelist rating
+
+**Kin Score 31.5** — thin · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 66.1 |
+| Contract quality | 53.3 |
+| Contract governance | 9.8 |
+| Operational transparency | 7.9 |
+| Developer ergonomics | 28.6 |
+| Access clarity | 18.4 |
+
+**Agent readiness 20.4** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | — |
+| OpenAPI Examples | partial |
+| Rate Limit Signal | derived (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 17.6** — Government & Public Sector
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/gov-uk-notify/](https://apis.io/providers/gov-uk-notify/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for GOV.UK Notify: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/gov-uk-notify/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
